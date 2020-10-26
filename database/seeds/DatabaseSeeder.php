@@ -1,5 +1,7 @@
 <?php
 
+use App\Screen;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,6 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        for ($i=0; $i < 40; $i++) {
+            Screen::create([
+                'id' => $i + 1,
+            ]);
+        }
+
+        User::create([
+            'name' => 'مشرف النظام',
+            'username' => 'admin',
+            'password' => bcrypt('admin'),
+        ]);
     }
 }
