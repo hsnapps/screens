@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'مشرف النظام',
             'username' => 'admin',
             'password' => bcrypt('admin'),
+            'remember_token' => null,
         ]);
     }
 }

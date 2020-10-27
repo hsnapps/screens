@@ -62,6 +62,7 @@ class AllTables extends Migration
 
             $table->unsignedInteger('id');
             $table->text('html')->default($html);
+            $table->string('snapshot')->nullable();
             $table->timestamps();
         });
     }
