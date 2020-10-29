@@ -35,6 +35,10 @@
         }
     },
     "autoload": {
+        "files": [
+            "app/Code/helpers.php",
+            "app/Code/Calendar.php"
+        ],
         "psr-4": {
             "App\\": "app/"
         },

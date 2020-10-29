@@ -6,8 +6,8 @@
 		<title>{{ config('app.name', 'Laravel') }}</title>
 		<link rel="icon" href="favicon.ico">
 		<!-- CSS FILES -->
-        <link rel="stylesheet" type="text/css" href="/css/uikit-rtl.min.css">
-        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="{{ url('css/uikit-rtl.min.css') }}">
+        <link rel="stylesheet" href="{{ url('css/style.css') }}">
 	</head>
 	<body class="uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport" data-uk-height-viewport>
 		<div class="uk-position-bottom-center uk-position-small uk-visible@m uk-position-z-index">
@@ -17,7 +17,8 @@
 		@yield('content')
 
 		<!-- JS FILES -->
-		<script src="/js/uikit.min.js"></script>
-		<script src="/js/uikit-icons.min.js"></script>
+		<script src="{{ url('js/uikit.min.js') }}"></script>
+        <script src="{{ url('js/uikit-icons.min.js') }}"></script>
+        @stack('scripts')
 	</body>
 </html>

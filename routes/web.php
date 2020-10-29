@@ -9,4 +9,6 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/screen/{id}', function () {
     return view('welcome');
 });
+Route::resource('users', 'UserController')->only(['index', 'update', 'destroy', 'store']);
+Route::get('users/table', 'UserController@loadUsers')->name('users.table');
 Route::get('/', 'HomeController@index')->name('home');
