@@ -17,9 +17,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('show/{screen}', 'ScreenController@show')->name('screens.show');
     });
 
-    Route::prefix('lectures')->group(function () {
-        Route::get('index', 'LectureController@index')->name('lectures.index');
-        Route::get('download', 'LectureController@download')->name('lectures.download');
+    Route::prefix('schedules')->group(function () {
+        Route::get('', 'ScheduleController@index')->name('schedules.index');
+        Route::get('download', 'ScheduleController@download')->name('schedules.download');
+        Route::post('upload', 'ScheduleController@upload')->name('schedules.upload');
     });
 
     Route::get('timing', 'TimingController@show')->name('timing.get');

@@ -31,37 +31,52 @@ class AllTables extends Migration
             $table->timestamp('failed_at')->useCurrent();
         });
 
-        // Schema::create('schedules', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->date('schedule_date');
-        //     $table->foreignId('user_id')->constrained('users');
-        //     $table->timestamps();
-        // });
-
-        Schema::create('instructors', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->char('fingerprint', 40);
+            $table->string('user_name');
+
+            $table->string('term')->nullable();
+            $table->string('college')->nullable();
+            $table->string('certificate')->nullable();
             $table->string('specialty')->nullable();
+            $table->string('subject_code')->nullable();
+            $table->string('subject_name')->nullable();
+            $table->string('reference')->nullable();
+            $table->string('contact_hours')->nullable();
+            $table->string('classification')->nullable();
+            $table->string('days')->nullable();
+            $table->string('times')->nullable();
+            $table->string('building')->nullable();
+            $table->string('hall')->nullable();
+            $table->string('capacity')->nullable();
+            $table->string('registered')->nullable();
+            $table->string('rest')->nullable();
+            $table->string('instructor_name')->nullable();
+            $table->string('instructor_id')->nullable();
+
+            $table->integer('day_index')->nullable();
+            $table->time('start')->nullable();
+            $table->time('end')->nullable();
+
+
             $table->timestamps();
         });
 
-        Schema::create('lectures', function (Blueprint $table) {
+        Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            $table->date('schedule_date');
-            $table->foreignId('instructor_id')->constrained('instructors');
-            $table->smallInteger('lecture_number');
-            // $table->dateTime('start');
-            // $table->dateTime('end');
-            $table->text('info')->nullable();
-            $table->unsignedInteger('screen_id');
+            $table->string('computer_id');
+            $table->string('name');
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
 
         Schema::create('screens', function (Blueprint $table) {
-            $html = '<img data-src="https://ussaudi.org/wp-content/uploads/2018/04/vision2030-saudi-arabia-Logo-PNG-icon.png" alt="" uk-img>';
-
             $table->unsignedInteger('id');
-            $table->text('html')->default($html);
+            $table->string('hall', 25)->nullable();
+            $table->text('content')->nullable();
+            $table->dateTime('content_start')->nullable();
+            $table->dateTime('content_end')->nullable();
             $table->string('snapshot')->nullable();
             $table->timestamps();
         });
@@ -85,9 +100,8 @@ class AllTables extends Migration
     {
         Schema::dropIfExists('timings');
         Schema::dropIfExists('screens');
-        Schema::dropIfExists('lectures');
         Schema::dropIfExists('instructors');
-        // Schema::dropIfExists('schedules');
+        Schema::dropIfExists('schedules');
         Schema::dropIfExists('failed_jobs');
         Schema::dropIfExists('users');
     }

@@ -2,16 +2,16 @@
 
 namespace App\Exports;
 
-use App\Lecture;
+use App\Schedule;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class LecturesExport implements FromCollection
+class SchedulesExport implements FromCollection
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return Lecture::all();
+        return Schedule::all();
     }
 }

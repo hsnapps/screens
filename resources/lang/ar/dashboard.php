@@ -14,7 +14,7 @@ return [
     2 => [
         'calendar',
         'الجداول',
-        route('lectures.index'),
+        route('schedules.index'),
     ],
     3 => [
         'thumbnails',
