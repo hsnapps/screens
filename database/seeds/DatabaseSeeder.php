@@ -1,7 +1,10 @@
 <?php
 
-use App\Screen;
-use App\User;
+use App\{
+    Screen,
+    User,
+    Timing
+};
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,9 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i < 40; $i++) {
+        for ($h=0; $h < 40; $h++) {
             Screen::create([
-                'id' => $i + 1,
+                'id' => $h + 1,
             ]);
         }
 
@@ -25,5 +28,23 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
             'remember_token' => null,
         ]);
+
+        for ($h=0; $h < 7; $h++) {
+            Timing::create([
+                'lecture' => $h + 1,
+                'morning' => true,
+                'start' => sprintf('%02d:00', $h + 7),
+                'end' => sprintf('%02d:00', $h + 8),
+            ]);
+        }
+
+        for ($h=0; $h < 7; $h++) {
+            Timing::create([
+                'lecture' => $h + 1,
+                'morning' => false,
+                'start' => sprintf('%02d:00', $h + 14),
+                'end' => sprintf('%02d:00', $h + 15),
+            ]);
+        }
     }
 }

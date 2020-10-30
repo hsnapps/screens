@@ -31,12 +31,12 @@ class AllTables extends Migration
             $table->timestamp('failed_at')->useCurrent();
         });
 
-        Schema::create('schedules', function (Blueprint $table) {
-            $table->id();
-            $table->date('schedule_date');
-            $table->foreignId('user_id')->constrained('users');
-            $table->timestamps();
-        });
+        // Schema::create('schedules', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->date('schedule_date');
+        //     $table->foreignId('user_id')->constrained('users');
+        //     $table->timestamps();
+        // });
 
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
@@ -47,11 +47,11 @@ class AllTables extends Migration
 
         Schema::create('lectures', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('schedule_id')->constrained('schedules');
+            $table->date('schedule_date');
             $table->foreignId('instructor_id')->constrained('instructors');
             $table->smallInteger('lecture_number');
-            $table->dateTime('start');
-            $table->dateTime('end');
+            // $table->dateTime('start');
+            // $table->dateTime('end');
             $table->text('info')->nullable();
             $table->unsignedInteger('screen_id');
             $table->timestamps();
@@ -65,6 +65,15 @@ class AllTables extends Migration
             $table->string('snapshot')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('timings', function (Blueprint $table) {
+            $table->id();
+            $table->smallInteger('lecture');
+            $table->boolean('morning')->comment('true: morning, false: evening');
+            $table->time('start')->nullable();
+            $table->time('end')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -74,10 +83,11 @@ class AllTables extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('timings');
         Schema::dropIfExists('screens');
         Schema::dropIfExists('lectures');
         Schema::dropIfExists('instructors');
-        Schema::dropIfExists('schedules');
+        // Schema::dropIfExists('schedules');
         Schema::dropIfExists('failed_jobs');
         Schema::dropIfExists('users');
     }

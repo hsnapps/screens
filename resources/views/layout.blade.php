@@ -12,16 +12,15 @@
         @stack('styles')
 	</head>
 	<body class="{{ Route::currentRouteName() == 'login' ? 'uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport' : '' }}" data-uk-height-viewport>
-		<div class="uk-position-bottom-center uk-position-small uk-visible@m uk-position-z-index">
-			<img data-src="images/login-footer.png" width="290" height="64" alt="login-footer" uk-img>
-        </div>
-
         @if (Auth::check())
         <nav class="uk-navbar-container" uk-navbar>
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav">
-                    <li><a href="logout" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: sign-out; ratio: 2"></a></li>
+                    <li><a id="logout" href="#" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: sign-out; ratio: 2"></a></li>
+                    <li><a href="{{ route('dashboard') }}" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: home; ratio: 2"></a></li>
+                    <li><a href="#users-password" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: lock; ratio: 2" uk-toggle></a></li>
                 </ul>
+                @include('modals.password')
             </div>
 
             <div class="uk-navbar-left">
@@ -40,31 +39,53 @@
             @yield('content')
         </div>
 
+        <footer class="uk-text-center" uk-sticky="bottom: body">
+            <img data-src="images/login-footer.png" width="290" height="64" alt="login-footer" uk-img>
+        </footer>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="post">
+            @csrf
+        </form>
+
 		<!-- JS FILES -->
 		<script src="{{ url('js/uikit.min.js') }}"></script>
         <script src="{{ url('js/uikit-icons.min.js') }}"></script>
         <script src="{{ url('js/jquery-3.5.1.min.js') }}"></script>
         <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Content-Type': 'application/json',
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                var message = jqXHR.responseJSON.message;
+            var modalOptions = {
+                    labels: {
+                        ok: "{{ __('app.ok') }}",
+                        cancel: "{{ __('app.cancel') }}"
+                    }
+                };
 
-                UIkit.notification({
-                    message: '<span uk-icon=\'icon: warning\'></span>&nbsp;' + message,
-                    status: 'danger',
-                    pos: 'top-center',
-                    timeout: 5000
-                });
-                console.log('Exception: ' + jqXHR.responseJSON.exception);
-                console.log('File: ' + jqXHR.responseJSON.file);
-                console.log('Line: ' + jqXHR.responseJSON.line);
-                console.log('Message: ' + jqXHR.responseJSON.message);
-            }
-        });
+            $('#logout').click(function() {
+
+                UIkit.modal.confirm("{{ __('app.logout') }}", modalOptions).then(function() {
+                    $('#logout-form').submit();
+                }, function () {});
+            });
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json',
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    var message = jqXHR.responseJSON.message;
+
+                    UIkit.notification({
+                        message: '<span uk-icon=\'icon: warning\'></span>&nbsp;' + message,
+                        status: 'danger',
+                        pos: 'top-center',
+                        timeout: 5000
+                    });
+                    console.log('Exception: ' + jqXHR.responseJSON.exception);
+                    console.log('File: ' + jqXHR.responseJSON.file);
+                    console.log('Line: ' + jqXHR.responseJSON.line);
+                    console.log('Message: ' + jqXHR.responseJSON.message);
+                }
+            });
         </script>
 
         @include('shared.flashes')

@@ -10,7 +10,7 @@
 
 @section('content')
 <div>
-    <a class="uk-button uk-button-default" href="#add-user" uk-toggle style="color: #ffffff"><span uk-icon="plus"></span>&nbsp;&nbsp;{{ __('app.users.add-user') }}</a>
+    <a class="uk-button uk-button-default" href="#add-user" uk-toggle style="color: #ffffff"><span uk-icon="plus"></span>&nbsp;&nbsp;{{ __('users.add-user') }}</a>
     @include('modals.add_user')
 </div>
 <div id="table"></div>
@@ -75,15 +75,9 @@
                     var id = $(this).data('unlock');
                     var name = $(this).data('name');
                     var route = $(this).data('route');
-                    var message = "{{ __('app.users.unlock-message') }}".replace('name', name);
-                    var options = {
-                        labels: {
-                            ok: "{{ __('app.ok') }}",
-                            cancel: "{{ __('app.cancel') }}"
-                        }
-                    };
+                    var message = "{{ __('users.unlock-message') }}".replace('name', name);
 
-                    UIkit.modal.confirm(message, options).then(function() {
+                    UIkit.modal.confirm(message, modalOptions).then(function() {
                         $.ajax({
                             url: route,
                             method: 'PATCH',
@@ -104,16 +98,10 @@
                 $('[data-delete]').click(function() {
                     var id = $(this).data('unlock');
                     var name = $(this).data('name');
-                    var message = "{{ __('app.users.delete-message') }}".replace('name', name);
+                    var message = "{{ __('users.delete-message') }}".replace('name', name);
                     var route = $(this).data('route');
-                    var options = {
-                        labels: {
-                            ok: "{{ __('app.ok') }}",
-                            cancel: "{{ __('app.cancel') }}"
-                        }
-                    };
 
-                    UIkit.modal.confirm(message, options).then(function() {
+                    UIkit.modal.confirm(message, modalOptions).then(function() {
                         $.ajax({
                             url: route,
                             method: 'DELETE',

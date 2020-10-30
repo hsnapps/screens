@@ -3,23 +3,20 @@
     <div class="uk-modal-dialog">
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <div class="uk-modal-header">
-            <h2 class="uk-modal-title">{{ __('app.users.add-user') }}</h2>
+            <h2 class="uk-modal-title">{{ __('users.add-user') }}</h2>
         </div>
         <div class="uk-modal-body" class="uk-form-stacked">
-            <div class="uk-text-center add-user" hidden>
-                <span uk-spinner="ratio: 4.5"></span>
-            </div>
-            <div class="uk-margin">
-                <label class="uk-form-label" for="name">{{ __('app.users.name') }}</label>
+             <div class="uk-margin">
+                <label class="uk-form-label" for="name">{{ __('users.name') }}</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" name="name" type="text" placeholder="{{ __('app.users.name') }}" maxlength="100">
+                    <input class="uk-input" name="name" type="text" placeholder="{{ __('users.name') }}" maxlength="100">
                 </div>
             </div>
 
             <div class="uk-margin">
-                <label class="uk-form-label" for="username">{{ __('app.users.username') }}</label>
+                <label class="uk-form-label" for="username">{{ __('users.username') }}</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" name="username" type="text" placeholder="{{ __('app.users.username') }}" maxlength="15">
+                    <input class="uk-input" name="username" type="text" placeholder="{{ __('users.username') }}" maxlength="15">
                 </div>
             </div>
         </div>
