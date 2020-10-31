@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\{Instructor, Schedule};
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Imports\SchedulesImport;
+use App\Imports\ExcelImport;
+use App\Exports\SchedulesExport;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ScheduleController extends Controller
 {
     public function index()
     {
-        return view('schedules.index');
+        return view('schedules.index', [
+            'rows' => Schedule::paginate(),
+        ]);
     }
 
     public function download()
     {
         $name = __('schedules.file-name').'.xlsx';
-        return Excel::download(new LecturesExport, $name);
+        return Excel::download(new SchedulesExport, $name);
     }
 
     public function upload(Request $request)
@@ -28,17 +34,23 @@ class ScheduleController extends Controller
 
         if ($request->hasFile('excel')) {
             if ($request->file('excel')->isValid()) {
+                DB::beginTransaction();
+
                 $extension = $request->excel->extension();
                 $file_name = Str::random(10).'.'.$extension;
-                $file_path = $request->excel->storeAs('', $file_name);
+                $file_path = $request->excel->storeAs('excel', $file_name);
 
-                $fingerprint = Str::random(40);
-                $user_name = $request->user()->name;
-                Excel::import(new SchedulesImport($fingerprint, $user_name), $file_path);
+                Instructor::truncate();
+                Schedule::truncate();
 
-                if (file_exists($file_path)) {
-                    unlink($file_path);
+                Excel::import(new ExcelImport(), $file_path);
+
+                $files = Storage::disk('excel')->files();
+                foreach ($files as $f) {
+                    Storage::disk('excel')->delete($f);
                 }
+
+                DB::commit();
 
                 return back()->with('success', __('schedules.excel-uploaded'));
             } else {

@@ -24,7 +24,7 @@ return [
     4 => [
         'user',
         'المحاضرين',
-        '#',
+        route('instructors.index'),
     ],
     5 => [
         'info',

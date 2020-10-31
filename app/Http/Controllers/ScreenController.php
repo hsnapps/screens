@@ -25,6 +25,9 @@ class ScreenController extends Controller
 
     public function show(Screen $screen)
     {
-
+        return view('screens.show', [
+            'title' => __('screens.screen', ['number' => $screen->id]),
+            'screen' => $screen,
+        ]);
     }
 }

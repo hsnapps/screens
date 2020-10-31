@@ -33,8 +33,6 @@ class AllTables extends Migration
 
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->char('fingerprint', 40);
-            $table->string('user_name');
 
             $table->string('term')->nullable();
             $table->string('college')->nullable();

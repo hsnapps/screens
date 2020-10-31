@@ -23,6 +23,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('upload', 'ScheduleController@upload')->name('schedules.upload');
     });
 
+    Route::prefix('instructors')->group(function () {
+        Route::get('', 'InstructorController@index')->name('instructors.index');
+        Route::get('show/{computer_id}', 'InstructorController@show')->name('instructors.show');
+        Route::get('download', 'InstructorController@download')->name('instructors.download');
+        Route::post('upload', 'InstructorController@upload')->name('instructors.upload');
+        Route::post('upload-photo', 'InstructorController@uploadPhoto')->name('instructors.upload');
+        Route::post('remove-photo', 'InstructorController@removePhoto')->name('instructors.remove');
+    });
+
     Route::get('timing', 'TimingController@show')->name('timing.get');
     Route::post('timing', 'TimingController@update')->name('timing.post');
 

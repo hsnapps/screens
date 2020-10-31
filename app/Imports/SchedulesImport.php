@@ -11,18 +11,9 @@ use Illuminate\Support\Str;
 
 class SchedulesImport implements ToCollection, WithHeadingRow
 {
-    protected $fingerprint;
-    protected $user_name;
-    protected $header;
-
-
-    public function __construct(string $fingerprint, string $user_name)
+    public function __construct()
     {
         HeadingRowFormatter::default('none');
-
-        $this->fingerprint = $fingerprint;
-        $this->user_name = $user_name;
-        $this->header = true;
     }
 
     public function collection(Collection $rows)
@@ -66,9 +57,6 @@ class SchedulesImport implements ToCollection, WithHeadingRow
         $day_index = array_search($day, __('schedules.days'));
 
         Schedule::create([
-            'fingerprint' => $this->fingerprint,
-            'user_name' => $this->user_name,
-
             'term' => trim($row['الفصل التدريبي']),
             'college' => trim($row['الوحدة التدريبية']),
             'certificate' => trim($row['جزء الفصل']),
