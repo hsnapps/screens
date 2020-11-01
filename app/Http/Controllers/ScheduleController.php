@@ -17,6 +17,7 @@ class ScheduleController extends Controller
     {
         return view('schedules.index', [
             'rows' => Schedule::paginate(),
+            'title' => 'الجداول',
         ]);
     }
 

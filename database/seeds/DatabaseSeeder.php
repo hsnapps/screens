@@ -17,9 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         for ($h=0; $h < 40; $h++) {
-            Screen::create([
-                'id' => $h + 1,
-            ]);
+            Screen::create([]);
         }
 
         User::create([

@@ -7,14 +7,13 @@ Route::post('/login', 'Auth\LoginController@login');
 // Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/screen/{id?}', function () {
-    return view('welcome');
-});
+Route::get('/screen/{id}', 'ScreenController@minitor');
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('screens')->group(function () {
         Route::get('{screen?}', 'ScreenController@index')->name('screens.index');
         Route::get('show/{screen}', 'ScreenController@show')->name('screens.show');
+        Route::post('update/{screen}', 'ScreenController@update')->name('screens.update');
     });
 
     Route::prefix('schedules')->group(function () {

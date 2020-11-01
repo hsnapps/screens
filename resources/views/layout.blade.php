@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 		<title>{{ config('app.name', 'Laravel') }}</title>
-		<link rel="icon" href="favicon.ico">
+		<link rel="icon" href="{{ url('favicon.ico') }}">
 		<!-- CSS FILES -->
         <link rel="stylesheet" type="text/css" href="{{ url('css/uikit-rtl.min.css') }}">
         <link rel="stylesheet" href="{{ url('css/style.css') }}">
@@ -40,7 +40,7 @@
         </div>
 
         <footer class="uk-text-center" uk-sticky="bottom: body">
-            <img data-src="images/login-footer.png" width="290" height="64" alt="login-footer" uk-img>
+            <img data-src="{{ url('images/login-footer.png') }}" width="290" height="64" alt="login-footer" uk-img>
         </footer>
 
         <form id="logout-form" action="{{ route('logout') }}" method="post">

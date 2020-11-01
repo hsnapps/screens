@@ -70,12 +70,26 @@ class AllTables extends Migration
         });
 
         Schema::create('screens', function (Blueprint $table) {
-            $table->unsignedInteger('id');
+            $table->id();
             $table->string('hall', 25)->nullable();
-            $table->text('content')->nullable();
+            // $table->text('content')->nullable();
             $table->dateTime('content_start')->nullable();
             $table->dateTime('content_end')->nullable();
             $table->string('snapshot')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('announcements', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('screen_id');
+            $table->enum('type', [
+                'text',
+                'photo',
+                'video',
+                'pdf',
+            ]);
+            $table->string('value');
+            $table->text('html')->nullable();
             $table->timestamps();
         });
 
@@ -97,6 +111,7 @@ class AllTables extends Migration
     public function down()
     {
         Schema::dropIfExists('timings');
+        Schema::dropIfExists('announcements');
         Schema::dropIfExists('screens');
         Schema::dropIfExists('instructors');
         Schema::dropIfExists('schedules');

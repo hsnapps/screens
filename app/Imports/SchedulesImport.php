@@ -35,16 +35,12 @@ class SchedulesImport implements ToCollection, WithHeadingRow
                 }
 
                 if (isset($row['أيام'])) {
-                    $row_9 = trim($row['أيام']);
-                    $more_than_one_day = Str::contains($row_9, ' ');
-
-                    if ($more_than_one_day) {
-                        $days = explode(' ', $row_9);
-                        foreach ($days as $day) {
-                            $this->createSchedule($row, $day, $start, $end);
+                    foreach (__('schedules.days') as $day_index => $day) {
+                        $days = trim($row['أيام']);
+                        $contains = Str::contains($days, $day);
+                        if ($contains) {
+                            $this->createSchedule($row, $day_index, $start, $end);
                         }
-                    } else {
-                        $this->createSchedule($row, $row_9, $start, $end);
                     }
                 }
             }
@@ -52,10 +48,8 @@ class SchedulesImport implements ToCollection, WithHeadingRow
         }
     }
 
-    private function createSchedule($row, $day, $start, $end)
+    private function createSchedule($row, $day_index, $start, $end)
     {
-        $day_index = array_search($day, __('schedules.days'));
-
         Schedule::create([
             'term' => trim($row['الفصل التدريبي']),
             'college' => trim($row['الوحدة التدريبية']),

@@ -77,8 +77,8 @@
                 <td>{{ $row->specialty }}</td>
                 <td>{{ $row->reference }}</td>
                 <td>{{ $row->classification }}</td>
-                <td>{{ $row->days }}</td>
-                <td>{{ $row->times }}</td>
+                <td>{{ __('schedules.days')[$row->day_index] }}</td>
+                <td>{{ $row->start->format('H:i').' - '.$row->end->format('H:i') }}</td>
                 <td>{{ $row->hall }}</td>
                 <td>{{ $row->instructor_name }}</td>
                 <td><a href="{{ route('instructors.show', ['computer_id' => $row->instructor_id]) }}"><span uk-icon="user"></span></a></td>
@@ -86,6 +86,9 @@
             @endforeach
         </tbody>
     </table>
+</div>
+<div class="uk-text-center">
+    {{ $rows->links('shared.pagination') }}
 </div>
 @endsection
 
