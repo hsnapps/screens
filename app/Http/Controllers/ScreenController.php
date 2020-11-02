@@ -17,7 +17,10 @@ class ScreenController extends Controller
 
     public function show(Screen $screen)
     {
-        $lectures = Schedule::where('hall', $screen->hall)->get();
+        $lectures = Schedule::where('hall', $screen->hall)
+            ->orderBy('day_index', 'asc')
+            ->orderBy('start', 'asc')
+            ->get();
 
         return view('screens.show', [
             'title' => __('screens.screen', ['number' => $screen->id]),
@@ -36,6 +39,11 @@ class ScreenController extends Controller
 
     public function minitor($id)
     {
+        return view('screens.monitor', ['screen' => $id]);
+    }
+
+    public function getMonitorContnet($id)
+    {
         $day = today()->dayOfWeek;
         $screen = Screen::findOrFail($id);
         $lectures = Schedule::where([
@@ -44,17 +52,20 @@ class ScreenController extends Controller
         ])
         ->get();
 
-        dd($lectures->toArray());
+        $current = null;
 
-        if (isset($lecture)) {
-            $now = now();
-            if ($now->greaterThanOrEqualTo($lecture->start) && $now->lessThanOrEqualTo($lecture->start)) {
-
+        $now = now();
+        foreach ($lectures as $lecture) {
+            if($now >= $lecture->start && $now <= $lecture->end) {
+                $current = $lecture;
+                break;
             }
-            dd($lecture->toArray());
         }
-        dd('no lectures');
 
-        return view('screens.monitor');
+        if (isset($current)) {
+            return view('monitor.lecture', ['lecture' => $current])->render();
+        }
+
+        return 'no lectures';
     }
 }

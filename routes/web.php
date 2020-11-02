@@ -16,6 +16,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('update/{screen}', 'ScreenController@update')->name('screens.update');
     });
 
+    Route::prefix('announcements')->group(function () {
+        Route::post('create', 'AnnouncementController@create')->name('announcements.create');
+        Route::post('update', 'AnnouncementController@update')->name('announcements.update');
+    });
+
     Route::prefix('schedules')->group(function () {
         Route::get('', 'ScheduleController@index')->name('schedules.index');
         Route::get('download', 'ScheduleController@download')->name('schedules.download');

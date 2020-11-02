@@ -63,6 +63,16 @@ return [
             'root' => storage_path('app/photos'),
         ],
 
+        'content' => [
+            'driver' => 'local',
+            'root' => storage_path('app/content'),
+        ],
+
+        'snapshots' => [
+            'driver' => 'local',
+            'root' => storage_path('app/snapshots'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
@@ -96,6 +106,8 @@ return [
     'links' => [
         // public_path('storage') => storage_path('app/public'),
         public_path('photos') => storage_path('app/photos'),
+        public_path('content') => storage_path('app/content'),
+        public_path('snapshots') => storage_path('app/snapshots'),
     ],
 
 ];

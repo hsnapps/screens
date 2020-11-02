@@ -10,6 +10,17 @@ class Announcement extends Model
         'screen_id',
         'type',
         'value',
-        'html',
+        'begin',
+        'end',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    protected $dates = [
+        'begin',
+        'end',
     ];
 }

@@ -89,7 +89,9 @@ class AllTables extends Migration
                 'pdf',
             ]);
             $table->string('value');
-            $table->text('html')->nullable();
+            $table->timestamp('begin')->nullable();
+            $table->timestamp('end')->nullable();
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
 
