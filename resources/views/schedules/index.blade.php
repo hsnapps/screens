@@ -6,26 +6,6 @@
         color: #ffffff !important;
     }
 
-    td > a {
-        color: #01573F !important;
-        border: none !important;
-        background-color: transparent !important;
-    }
-
-    tr:nth-last-of-type(even) > td > a {
-        color: #f8f8f8 !important;
-    }
-
-    /*
-    * Striped
-    */
-    .uk-table-striped > tr:nth-of-type(odd),
-    .uk-table-striped tbody tr:nth-of-type(odd) {
-        background: #f8f8f8;
-        border-top: 1px solid #e5e5e5;
-        border-bottom: 1px solid #e5e5e5;
-        color: #01573F !important;
-    }
     /*
     * Hover
     */
@@ -54,7 +34,7 @@
     </form>
 </div>
 <div class="uk-overflow-auto">
-    <table class="uk-table uk-table-striped uk-table-divider uk-table-hover">
+    <table class="uk-table uk-table-divider uk-table-hover">
         <thead>
             <tr>
                 <th>#</th>
@@ -81,7 +61,7 @@
                 <td>{{ $row->start->format('H:i').' - '.$row->end->format('H:i') }}</td>
                 <td>{{ $row->hall }}</td>
                 <td>{{ $row->instructor_name }}</td>
-                <td><a href="{{ route('instructors.show', ['computer_id' => $row->instructor_id]) }}"><span uk-icon="user"></span></a></td>
+                <td><a class="uk-button uk-button-text" href="{{ route('instructors.show', ['computer_id' => $row->instructor_id]) }}"><span style="color: #174F3F" uk-icon="user"></span></a></td>
             </tr>
             @endforeach
         </tbody>

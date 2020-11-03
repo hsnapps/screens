@@ -6,7 +6,7 @@
     <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
         <div class="uk-grid-collapse uk-child-width-expand uk-margin-medium-bottom" uk-grid>
             <div>
-                <a href="{{ route('instructors.index') }}" class="uk-button uk-button-text"><span uk-icon="chevron-left"></span> {{ __('instructors.title') }}</a>
+                <a href="{{ route('instructors.index') }}" style="color: #174F3F !important" class="uk-button uk-button-text"><span style="color: #174F3F !important" uk-icon="chevron-left"></span> {{ __('instructors.title') }}</a>
             </div>
             <div></div>
             <div></div>
@@ -46,16 +46,16 @@
                     @csrf
                     <input type="file" name="photo">
                     <input type="hidden" name="id" value="{{ $instructor->id }}">
-                    <button class="uk-button uk-button-default uk-width-1-1" type="button" tabindex="-1">ملف الصورة</button>
+                    <button class="uk-button uk-button-default uk-width-1-1" type="button" style="color: #174F3F !important" tabindex="-1">ملف الصورة</button>
                 </form>
             </div>
             <div>
-                <button id="upload-btn" class="uk-button uk-button-default uk-width-1-1"><span uk-icon="push"></span> حفظ الصورة</button>
+                <button id="upload-btn" class="uk-button uk-button-default uk-width-1-1" style="color: #174F3F !important"><span style="color: #174F3F !important" uk-icon="push"></span> حفظ الصورة</button>
             </div>
             <form method="POST" action="{{ route('instructors.remove') }}">
                 @csrf
                 <input type="hidden" name="id" value="{{ $instructor->id }}">
-                <button class="uk-button uk-button-default uk-width-1-1"><span uk-icon="close"></span> حذف الصورة</button>
+                <button class="uk-button uk-button-default uk-width-1-1" style="color: #174F3F !important"><span uk-icon="close" style="color: #174F3F !important"></span> حذف الصورة</button>
             </form>
         </div>
         <div>

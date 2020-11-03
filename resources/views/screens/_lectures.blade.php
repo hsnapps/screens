@@ -1,7 +1,7 @@
 <div class="uk-card uk-card-header">
     <div class="uk-card-body uk-padding-remove">
         <div class="uk-overflow-auto">
-            <table class="uk-table uk-table-striped uk-table-divider uk-table-hover">
+            <table class="uk-table uk-table-divider uk-table-hover">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -28,7 +28,7 @@
                         <td>{{ $row->start->format('H:i').' - '.$row->end->format('H:i') }}</td>
                         <td>{{ $row->hall }}</td>
                         <td>{{ $row->instructor_name }}</td>
-                        <td><a href="{{ route('instructors.show', ['computer_id' => $row->instructor_id]) }}"><span uk-icon="user"></span></a></td>
+                        <td><a class="uk-button uk-button-text" href="{{ route('instructors.show', ['computer_id' => $row->instructor_id]) }}"><span style="color: #174F3F" uk-icon="user"></span></a></td>
                     </tr>
                     @endforeach
                 </tbody>

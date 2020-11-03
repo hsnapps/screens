@@ -102,7 +102,7 @@
         $('#content-file').prop('hidden', $(this).val() === 'text');
     });
 
-    UIkit.switcher('#screen-tab').show(1);
+    // UIkit.switcher('#screen-tab').show(1);
 
     $('#snapshot').attr('src', "{{ route('monitor', ['id' => $screen]) }}");
 
