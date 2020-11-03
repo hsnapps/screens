@@ -8,13 +8,18 @@
 </div>
 
 <div class="uk-margin-top-remove">
-    <table class="uk-table uk-table-hover uk-table-striped ">
+    <table class="uk-table uk-table-hover ">
         <thead>
             <tr>
                 <th>#</th>
                 <th>{{ __('announcements.type') }}</th>
-                <th>{{ __('announcements.value') }}</th>
-                <th></th>
+                <th class="uk-text-truncate">{{ __('announcements.value') }}</th>
+                <th>{{ __('announcements.from') }}</th>
+                <th>{{ __('announcements.to') }}</th>
+                <th class="uk-table-shrink">{{ __('announcements.edit') }}</th>
+                <th class="uk-table-shrink">{{ __('announcements.is_active') }}</th>
+                <th class="uk-table-shrink">{{ __('announcements.view') }}</th>
+                <th class="uk-table-shrink">{{ __('announcements.trash') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -23,30 +28,24 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ __('announcements.types')[$announcement->type] }}</td>
                 <td>{{ $announcement->type == 'text' ? $announcement->value : '' }}</td>
+                <td>{{ $announcement->begin->format(__('announcements.format')) }}</td>
+                <td>{{ $announcement->end->format(__('announcements.format')) }}</td>
                 <td>
-                    <button class="uk-button uk-button-secondary" uk-toggle="target: #modal-{{ $announcement->id }}"><span uk-icon="icon: search"></span></button>
-                    <div id="modal-{{ $announcement->id }}" uk-modal>
-                        <div class="uk-modal-dialog uk-modal-body">
-                            <div>
-                                @switch($announcement->type)
-                                    @case('photo')
-                                        <img data-src="{{ url('content/'.$announcement->value) }}" width="800" alt="" uk-img>
-                                        @break
-                                    @case('video')
-                                        <video src="{{ url('content/'.$announcement->value) }}" controls playsinline uk-video="autoplay: inview; automute: true"></video>
-                                        @break
-                                    @case('pdf')
-                                        <embed src="{{ url('content/'.$announcement->value) }}" type="application/pdf" width="100%" height="600px" />
-                                        @break
-                                    @default
-                                    <h1 class="text-center">{{ $announcement->value }}</h1>
-                                @endswitch
-                            </div>
-                            <p class="uk-text-left">
-                                <button class="uk-button uk-button-default uk-modal-close" type="button">{{ __('app.close') }}</button>
-                            </p>
-                        </div>
-                    </div>
+                    <button class="uk-button uk-button-text" data-edit="{{ $announcement->id }}" data-text="{{ $announcement->value }}" data-type="{{ $announcement->type }}" type="button"><span uk-icon="pencil"></span></button>
+                </td>
+                <td>
+                    <form action="{{ route('announcements.change-active') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $announcement->id }}">
+                        <button class="uk-button uk-button-text"><span uk-icon="{{ $announcement->is_active ? 'check' : 'close' }}"></span></button>
+                    </form>
+                </td>
+                <td>
+                    <button class="uk-button uk-button-text" uk-toggle="target: #modal-{{ $announcement->id }}"><span uk-icon="icon: search"></span></button>
+                    @include('screens._announcement_modal')
+                </td>
+                <td>
+                    <button class="uk-button uk-button-text" data-delete="{{ $announcement->id }}" data-index="{{ $loop->index + 1 }}" type="button"><span uk-icon="trash"></span></button>
                 </td>
             </tr>
             @endforeach

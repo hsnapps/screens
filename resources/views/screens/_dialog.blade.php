@@ -1,4 +1,4 @@
-<form class="uk-form-stacked add-content" action="{{ route('announcements.create') }}" method="post" enctype="multipart/form-data" hidden>
+<form class="uk-form-stacked add-content uk-padding uk-background-secondary" action="{{ route('announcements.update') }}" method="post" enctype="multipart/form-data">
     <fieldset class="uk-fieldset">
         <div class="uk-margin">
             <label class="uk-form-label" for="type">{{ __('announcements.type') }}</label>
@@ -13,7 +13,7 @@
 
         <div id="content-text" class="uk-margin">
             <label class="uk-form-label" for="value">{{ __('announcements.value') }}</label>
-            <textarea name="text" class="uk-textarea" rows="5" placeholder="{{ __('announcements.value') }}"></textarea>
+            <textarea name="text" class="uk-textarea" rows="5" placeholder="{{ __('announcements.value') }}">{{ $announcement->type === 'text' ? $announcement->value : '' }}</textarea>
         </div>
         <div id="content-file" class="uk-margin" hidden>
             <label class="uk-form-label" for="value">{{ __('announcements.value') }}</label>
@@ -28,21 +28,21 @@
             <div class="uk-width-1-1" uk-grid>
                 <div class="uk-width-1-2">
                     <label class="uk-form-label" for="value">{{ __('announcements.from') }}</label>
-                    <input type="datetime" name="begin" id="begin" class="uk-input" autocomplete="off">
+                    <input type="datetime" name="begin" id="begin" class="uk-input" autocomplete="off" value="{{ $announcement->begin->format('Y/m/d h:i') }}">
                 </div>
                 <div class="uk-width-1-2">
                     <label class="uk-form-label" for="value">{{ __('announcements.to') }}</label>
-                    <input type="datetime" name="end" id="end" class="uk-input" autocomplete="off">
+                    <input type="datetime" name="end" id="end" class="uk-input" autocomplete="off" value="{{ $announcement->end->format('Y/m/d h:i') }}">
                 </div>
             </div>
         </div>
 
         <div class="uk-margin">
-            <button class="uk-button uk-button-default uk-width-1-4 uk-align-left">{{ __('announcements.add') }}</button>
-            <button class="uk-button uk-button-default uk-align-right" type="button" uk-toggle="target: .add-content"><span uk-icon="close"></span></button>
+            <button class="uk-button uk-button-default uk-width-1-4 uk-align-left">{{ __('announcements.edit') }}</button>
         </div>
     </fieldset>
 
-    <input type="hidden" name="screen_id" value="{{ $screen->id }}">
+    <input type="hidden" name="id" value="{{ $announcement->id }}">
     @csrf
+    @method('PUT')
 </form>

@@ -39,21 +39,50 @@ class ScreenController extends Controller
 
     public function minitor($id)
     {
-        return view('screens.monitor', ['screen' => $id]);
+        $interval = 60 * 1000;
+        return view('screens.monitor', [
+            'screen' => $id,
+            'interval' => $interval,
+        ]);
     }
 
-    public function getMonitorContnet($id)
+    /**
+     * API Get Request
+     * @param int $id
+     * @return string
+     */
+    public function getMonitorContnet($id) : string
     {
-        $day = today()->dayOfWeek;
         $screen = Screen::findOrFail($id);
+        $interval = 60 * 1000;
+
+        // Check For Announcements
+        $where = [
+            ['is_active', '=', 1],
+            ['begin', '<=', now()],
+        ];
+        $announcements = $screen->announcements()->where($where)->get();
+        if ($announcements->count() > 0) {
+            $max = $announcements->max('end');
+            $begin = now();
+            $end = $max;
+            $interval = $begin->diffInRealMilliseconds($end);
+            $html = view('monitor.announcements', ['announcements' => $announcements])->render();
+
+            return json_encode([
+                'html' => $html,
+                'interval' => $interval,
+            ]);
+        }
+
+        // Check For Lectures
+        $day = today()->dayOfWeek;
         $lectures = Schedule::where([
             'hall' => $screen->hall,
             'day_index' => $day,
         ])
         ->get();
-
         $current = null;
-
         $now = now();
         foreach ($lectures as $lecture) {
             if($now >= $lecture->start && $now <= $lecture->end) {
@@ -61,11 +90,23 @@ class ScreenController extends Controller
                 break;
             }
         }
-
         if (isset($current)) {
-            return view('monitor.lecture', ['lecture' => $current])->render();
+            $begin = now();
+            $end = $current->end;
+            $interval = $begin->diffInRealMilliseconds($end);
+            $html = view('monitor.lecture', ['lecture' => $current])->render();
+
+            return json_encode([
+                'html' => $html,
+                'interval' => $interval,
+            ]);
         }
 
-        return 'no lectures';
+        // Return default
+        $html = view('monitor.default')->render();
+        return json_encode([
+            'html' => $html,
+            'interval' => $interval,
+        ]);
     }
 }

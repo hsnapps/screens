@@ -9,7 +9,7 @@
     <style>
         @font-face {
             font-family: hanimation;
-            src: url(http://screens.hsn/fonts/hanimation-regular.ttf);
+            src: url("{{ url('fonts/hanimation-regular.ttf') }}");
         }
         html {
             background: rgb(180,212,187);
@@ -24,7 +24,7 @@
             font-family: hanimation !important;
         }
         .arial {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Arial, Helvetica, sans-serif !important;
         }
     </style>
 </head>
@@ -36,17 +36,21 @@
     <script src="{{ url('js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ url('js/moment-with-locales.min.js') }}"></script>
     <script>
+        setTimeout(() => {loadContnet()}, 50);
+
         var screen = '{{ $screen }}';
-
-        setTimeout(() => {loadContnet();}, 50);
-
-        setInterval(() => { loadContnet(); }, 10000);
+        var interval = Number('{{ $interval }}');
+        var timer = setInterval(() => { loadContnet(); }, interval);
 
         function loadContnet() {
             fetch('/api/screen/' + screen)
-                .then(res => res.text())
-                .then(res => document.getElementById('contnet').innerHTML = res)
-                .catch(err => console.log(err));
+                .then(res => res.json())
+                .then(data => {
+                    clearInterval(timer);
+                    document.getElementById('contnet').innerHTML = data.html;
+                    timer = setInterval(() => { loadContnet(); }, data.interval);
+                })
+                .catch(err => console.error(err));
         }
     </script>
 </body>

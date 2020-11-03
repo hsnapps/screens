@@ -7,7 +7,7 @@ Route::post('/login', 'Auth\LoginController@login');
 // Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/screen/{id}', 'ScreenController@minitor');
+Route::get('/screen/{id}', 'ScreenController@minitor')->name('monitor');
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('screens')->group(function () {
@@ -18,7 +18,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('announcements')->group(function () {
         Route::post('create', 'AnnouncementController@create')->name('announcements.create');
-        Route::post('update', 'AnnouncementController@update')->name('announcements.update');
+        Route::put('update', 'AnnouncementController@update')->name('announcements.update');
+        Route::post('change-active', 'AnnouncementController@changeActive')->name('announcements.change-active');
+        Route::delete('delete', 'AnnouncementController@delete')->name('announcements.delete');
+        Route::get('dialog', 'AnnouncementController@getDialog')->name('announcements.dialog');
     });
 
     Route::prefix('schedules')->group(function () {

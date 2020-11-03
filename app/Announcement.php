@@ -17,6 +17,8 @@ class Announcement extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'begin' => 'datetime:Y-m-d',
+        'end' => 'datetime:Y-m-d',
     ];
 
     protected $dates = [

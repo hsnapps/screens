@@ -96,7 +96,7 @@
                 });
 
                 $('[data-delete]').click(function() {
-                    var id = $(this).data('unlock');
+                    var id = $(this).data('delete');
                     var name = $(this).data('name');
                     var message = "{{ __('users.delete-message') }}".replace('name', name);
                     var route = $(this).data('route');

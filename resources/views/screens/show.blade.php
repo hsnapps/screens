@@ -6,11 +6,34 @@
         font-size: 1.25em;
         color: #ffffff !important
     }
+    /*
+    * Hover
+    */
+    .uk-table-hover>tr:hover,
+    .uk-table-hover tbody tr:hover > td > button,
+    .uk-table-hover tbody tr:hover > td > form > button {
+        color: #01573F !important;
+        /* background: #01573F !important; */
+    }
+
+    thead {
+        border-bottom-color: #ffd !important;
+        border-bottom-style: solid;
+        border-bottom-width: thin;
+    }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/jquery.datetimepicker.min.css" />
 @endpush
 
 @section('content')
+<div class="uk-grid-collapse uk-child-width-expand uk-margin-medium-bottom" uk-grid>
+    <div>
+        <a href="{{ route('screens.index') }}" class="uk-button uk-button-text"><span uk-icon="chevron-left"></span> {{ __('screens.title') }}</a>
+    </div>
+    <div></div>
+    <div></div>
+</div>
+
 <div class="uk-card uk-card-default uk-card-body">
     @include('screens._hall')
 </div>
@@ -30,14 +53,23 @@
             @include('screens._announcements')
         </li>
         <li id="_snapshot">
-            @if (isset($screen->snapshot))
-            <img data-src="{{ url('snapshots/'.$screen->snapshot) }}" width="800" alt="" uk-img>
-            @else
-
-            @endif
+            @include('screens._snapshot')
         </li>
     </ul>
 </div>
+
+<form id="delete-form" action="{{ route('announcements.delete') }}" method="post">
+    @method('DELETE')
+    @csrf
+    <input type="hidden" name="delete_id">
+</form>
+<form id="update-form" action="{{ route('announcements.update') }}" method="post">
+    @method('PUT')
+    @csrf
+    <input type="hidden" name="update_id">
+    <input type="hidden" name="update_type">
+    <input type="hidden" name="update_text">
+</form>
 @endsection
 
 @push('scripts')
@@ -66,14 +98,44 @@
 
     UIkit.switcher('#screen-tab').show(1);
 
-    UIkit.util.on('#switcher-content', 'shown', function (e) {
-        if (e.target.id === '_snapshot') {
-            timer = setInterval(function() {
+    $('#snapshot').attr('src', "{{ route('monitor', ['id' => $screen]) }}");
 
-            }, 1000 * 30);
-        } else {
-            clearTimeout(timer);
-        }
+    $('[data-delete]').click(function() {
+        var id = $(this).data('delete');
+        var index = $(this).data('index');
+        var message = 'حذف الإعلان رقم number؟'.replace('number', index);
+        $('[name="delete_id"]').val(id);
+
+        UIkit.modal.confirm(message, modalOptions).then(function() {
+            $('#delete-form').submit();
+        }, function () {});
+    });
+
+    $('[data-edit]').click(function() {
+        var id = $(this).data('edit');
+        // var text = $(this).data('text');
+        // var type = $(this).data('type');
+        // var message = "{{ __('announcements.value') }}";
+        // $('[name="update_id"]').val(id);
+        // $('[name="update_type"]').val(type);
+
+        $.ajax({
+            url: "{{ route('announcements.dialog') }}",
+            data: { id: id },
+            dataType: 'html',
+            success: function(data) {
+                UIkit.modal.dialog(data);
+            }
+        });
+
+        // if (type === 'text') {
+        //     UIkit.modal.prompt(message, text, modalOptions).then(function (value) {
+        //         $('[name="update_text"]').val(value);
+        //         $('#update-form').submit();
+        //     });
+        // } else {
+
+        // }
     });
 </script>
 @endpush
