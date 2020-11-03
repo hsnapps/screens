@@ -79,16 +79,16 @@
 @endsection
 
 @push('scripts')
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.min.js"></script>
-<script src="http://cdn.craig.is/js/rainbow-custom.min.js"></script>
+<script src="{{ url('js/jquery-ui.min.js') }}"></script>
+<script src="{{ url('js/jquery.datetimepicker.full.js') }}"></script>
+<script src="{{ url('js/rainbow-custom.min.js') }}"></script>
 <script>
     var timer = null;
 
     $(document).ready(function() {
         var options = { format: 'H:i Y-m-d' };
-        $.datetimepicker.setLocale('ar-SA');
+        console.log($.datetimepicker);
+        $.datetimepicker.setLocale('ar');
        	$('#begin').datetimepicker(options);
        	$('#end').datetimepicker(options);
     });
