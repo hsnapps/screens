@@ -14,8 +14,6 @@
                 <th>#</th>
                 <th>{{ __('announcements.type') }}</th>
                 <th class="uk-text-truncate">{{ __('announcements.value') }}</th>
-                <th>{{ __('announcements.from') }}</th>
-                <th>{{ __('announcements.to') }}</th>
                 <th class="uk-table-shrink">{{ __('announcements.edit') }}</th>
                 <th class="uk-table-shrink">{{ __('announcements.is_active') }}</th>
                 <th class="uk-table-shrink">{{ __('announcements.view') }}</th>
@@ -28,8 +26,6 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ __('announcements.types')[$announcement->type] }}</td>
                 <td>{{ $announcement->type == 'text' ? $announcement->value : '' }}</td>
-                <td>{{ $announcement->begin->format(__('announcements.format')) }}</td>
-                <td>{{ $announcement->end->format(__('announcements.format')) }}</td>
                 <td>
                     <button class="uk-button uk-button-text" data-edit="{{ $announcement->id }}" data-text="{{ $announcement->value }}" data-type="{{ $announcement->type }}" type="button"><span uk-icon="pencil"></span></button>
                 </td>

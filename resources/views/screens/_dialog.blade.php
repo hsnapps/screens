@@ -5,36 +5,24 @@
             <div class="uk-form-controls">
                 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                     @foreach (__('announcements.types') as $key => $value)
-                    <label><input class="uk-radio" type="radio" name="type" value="{{ $key }}" {{ $key == 'text' ? 'checked' : '' }}> {{ $value }}</label>
+                    <label><input class="uk-radio" type="radio" name="type" value="{{ $key }}" {{ $key == $announcement->type ? 'checked' : '' }}> {{ $value }}</label>
                     @endforeach
                 </div>
             </div>
         </div>
 
-        <div id="content-text" class="uk-margin">
+        <div id="content-text" class="uk-margin" {{ $announcement->type == 'text' ? '' : 'hidden' }}>
             <label class="uk-form-label" for="value">{{ __('announcements.value') }}</label>
             <textarea name="text" class="uk-textarea" rows="5" placeholder="{{ __('announcements.value') }}">{{ $announcement->type === 'text' ? $announcement->value : '' }}</textarea>
         </div>
-        <div id="content-file" class="uk-margin" hidden>
+
+        <div id="content-file" class="uk-margin" {{ $announcement->type == 'text' ? 'hidden' : '' }}>
             <label class="uk-form-label" for="value">{{ __('announcements.value') }}</label>
             <div uk-form-custom>
                 <input type="file" name="content">
                 <button class="uk-button uk-button-default" type="button" tabindex="-1">{{ __('schedules.select-file') }}</button>
             </div>
             <button id="file-name" class="uk-button uk-button-text uk-margin-small-right" disabled></button>
-        </div>
-
-        <div class="uk-margin">
-            <div class="uk-width-1-1" uk-grid>
-                <div class="uk-width-1-2">
-                    <label class="uk-form-label" for="value">{{ __('announcements.from') }}</label>
-                    <input type="datetime" name="begin" id="begin" class="uk-input" autocomplete="off" value="{{ $announcement->begin->format('Y/m/d h:i') }}">
-                </div>
-                <div class="uk-width-1-2">
-                    <label class="uk-form-label" for="value">{{ __('announcements.to') }}</label>
-                    <input type="datetime" name="end" id="end" class="uk-input" autocomplete="off" value="{{ $announcement->end->format('Y/m/d h:i') }}">
-                </div>
-            </div>
         </div>
 
         <div class="uk-margin">

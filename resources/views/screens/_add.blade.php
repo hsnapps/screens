@@ -25,19 +25,6 @@
         </div>
 
         <div class="uk-margin">
-            <div class="uk-width-1-1" uk-grid>
-                <div class="uk-width-1-2">
-                    <label class="uk-form-label" for="value">{{ __('announcements.from') }}</label>
-                    <input type="datetime" name="begin" id="begin" class="uk-input" autocomplete="off">
-                </div>
-                <div class="uk-width-1-2">
-                    <label class="uk-form-label" for="value">{{ __('announcements.to') }}</label>
-                    <input type="datetime" name="end" id="end" class="uk-input" autocomplete="off">
-                </div>
-            </div>
-        </div>
-
-        <div class="uk-margin">
             <button class="uk-button uk-button-default uk-width-1-4 uk-align-left">{{ __('announcements.add') }}</button>
             <button class="uk-button uk-button-default uk-align-right" type="button" uk-toggle="target: .add-content"><span uk-icon="close"></span></button>
         </div>

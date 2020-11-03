@@ -36,6 +36,7 @@
 
 <div class="uk-card uk-card-default uk-card-body">
     @include('screens._hall')
+    @include('screens._times')
 </div>
 
 <div class="uk-padding">
@@ -69,6 +70,11 @@
     <input type="hidden" name="update_id">
     <input type="hidden" name="update_type">
     <input type="hidden" name="update_text">
+</form>
+<form id="remove-form" action="{{ route('screens.update-remove', ['screen' => $screen]) }}" method="post">
+    @method('DELETE')
+    @csrf
+    <input type="hidden" name="remove_id">
 </form>
 @endsection
 
@@ -113,11 +119,6 @@
 
     $('[data-edit]').click(function() {
         var id = $(this).data('edit');
-        // var text = $(this).data('text');
-        // var type = $(this).data('type');
-        // var message = "{{ __('announcements.value') }}";
-        // $('[name="update_id"]').val(id);
-        // $('[name="update_type"]').val(type);
 
         $.ajax({
             url: "{{ route('announcements.dialog') }}",
@@ -127,15 +128,12 @@
                 UIkit.modal.dialog(data);
             }
         });
+    });
 
-        // if (type === 'text') {
-        //     UIkit.modal.prompt(message, text, modalOptions).then(function (value) {
-        //         $('[name="update_text"]').val(value);
-        //         $('#update-form').submit();
-        //     });
-        // } else {
-
-        // }
+    $('[data-remove]').click(function () {
+        var id = $(this).data('remove');
+        $('[name="remove_id"]').val(id);
+        $('#remove-form').submit();
     });
 </script>
 @endpush

@@ -12,6 +12,11 @@ class Screen extends Model
         'snapshot',
     ];
 
+    protected $dates = [
+        'content_start',
+        'content_end',
+    ];
+
     public function announcements()
     {
         return $this->hasMany(Announcement::class);

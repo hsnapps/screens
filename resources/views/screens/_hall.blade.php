@@ -1,7 +1,7 @@
 <form class="uk-grid-collapse" action="{{ route('screens.update', ['screen' => $screen]) }}" method="POST" uk-grid>
     @csrf
     <div>
-        <label class="uk-form-label uk-padding-small uk-margin-small-top uk-text-large">{{ __('screens.hall') }}</label>
+        <label class="uk-form-label uk-padding-small uk-margin-small-top uk-text-large" style="color: #26473C !important">{{ __('screens.hall') }}</label>
     </div>
     <div>
         <div class="uk-form-controls">
@@ -12,3 +12,4 @@
         <button class="uk-button uk-button-secondary uk-input uk-width-1-1">{{ __('screens.update') }}</button>
     </div>
 </form>
+

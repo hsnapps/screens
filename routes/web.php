@@ -14,6 +14,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{screen?}', 'ScreenController@index')->name('screens.index');
         Route::get('show/{screen}', 'ScreenController@show')->name('screens.show');
         Route::post('update/{screen}', 'ScreenController@update')->name('screens.update');
+        Route::post('update-times/{screen}', 'ScreenController@updateTimes')->name('screens.update-times');
+        Route::delete('remove-times/{screen}', 'ScreenController@removeTimes')->name('screens.update-remove');
     });
 
     Route::prefix('announcements')->group(function () {

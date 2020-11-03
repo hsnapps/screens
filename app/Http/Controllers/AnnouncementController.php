@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
 {
@@ -24,8 +25,8 @@ class AnnouncementController extends Controller
                 'type' => $request->type,
                 'value' => $request->text,
                 'is_active' => true,
-                'begin' => $request->begin,
-                'end' => $request->end,
+                // 'begin' => $request->begin,
+                // 'end' => $request->end,
             ]);
         } else {
             $this->addContent($request);
@@ -35,7 +36,7 @@ class AnnouncementController extends Controller
 
     }
 
-    private function addContent(Request $request)
+    private function addContent(Request $request, Announcement $announcement = null)
     {
         $request->validate([
             'content' => $this->rules[$request->type],
@@ -47,14 +48,26 @@ class AnnouncementController extends Controller
         $file_name = Str::random(10).'.'.$extension;
         $request->content->storeAs('content', $file_name);
 
-        Announcement::create([
-            'screen_id' => $request->screen_id,
-            'type' => $request->type,
-            'value' => $file_name,
-            'is_active' => true,
-            'begin' => $request->begin,
-            'end' => $request->end,
-        ]);
+        if (isset($announcement)) {
+            Storage::disk('content')->delete($announcement->value);
+            $announcement->update([
+                // 'screen_id' => $request->screen_id,
+                'type' => $request->type,
+                'value' => $file_name,
+                // 'is_active' => true,
+                // 'begin' => $request->begin,
+                // 'end' => $request->end,
+            ]);
+        } else {
+            Announcement::create([
+                'screen_id' => $request->screen_id,
+                'type' => $request->type,
+                'value' => $file_name,
+                'is_active' => true,
+                // 'begin' => $request->begin,
+                // 'end' => $request->end,
+            ]);
+        }
 
         DB::commit();
     }
@@ -69,7 +82,7 @@ class AnnouncementController extends Controller
             $announcement->value = $request->text;
             $announcement->save();
         } else {
-            $this->addContent($request);
+            $this->addContent($request, $announcement);
         }
 
         return back()->with('success', __('announcements.update'));

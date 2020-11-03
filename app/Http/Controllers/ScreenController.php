@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Screen;
 use App\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ScreenController extends Controller
@@ -57,16 +58,10 @@ class ScreenController extends Controller
         $interval = 60 * 1000;
 
         // Check For Announcements
-        $where = [
-            ['is_active', '=', 1],
-            ['begin', '<=', now()],
-        ];
-        $announcements = $screen->announcements()->where($where)->get();
-        if ($announcements->count() > 0) {
-            $max = $announcements->max('end');
-            $begin = now();
-            $end = $max;
-            $interval = $begin->diffInRealMilliseconds($end);
+        $announcements = $screen->announcements()->where('is_active', true)->get();
+        if ($announcements->count() > 0 && isset($screen->content_start)) {
+            $begin = $screen->content_start;
+            $interval = $begin->diffInRealMilliseconds($screen->content_end);
             $html = view('monitor.announcements', ['announcements' => $announcements])->render();
 
             return json_encode([
@@ -108,5 +103,23 @@ class ScreenController extends Controller
             'html' => $html,
             'interval' => $interval,
         ]);
+    }
+
+    public function updateTimes(Request $request, Screen $screen)
+    {
+        $screen->content_start = Carbon::parse($request->content_start);
+        $screen->content_end = Carbon::parse($request->content_end);
+        $screen->save();
+
+        return back()->with('success', __('announcements.update'));
+    }
+
+    public function removeTimes(Screen $screen)
+    {
+        $screen->content_start = null;
+        $screen->content_end = null;
+        $screen->save();
+
+        return back()->with('success', __('announcements.update'));
     }
 }
