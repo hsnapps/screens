@@ -10,6 +10,7 @@ class Screen extends Model
         'content_start',
         'content_end',
         'snapshot',
+        'fingerprint'
     ];
 
     protected $dates = [

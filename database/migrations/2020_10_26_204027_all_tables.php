@@ -72,10 +72,10 @@ class AllTables extends Migration
         Schema::create('screens', function (Blueprint $table) {
             $table->id();
             $table->string('hall', 25)->nullable();
-            // $table->text('content')->nullable();
             $table->dateTime('content_start')->nullable();
             $table->dateTime('content_end')->nullable();
             $table->string('snapshot')->nullable();
+            $table->char('fingerprint', 80)->nullable();
             $table->timestamps();
         });
 

@@ -6,6 +6,7 @@ use App\{
     Timing
 };
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,7 +18,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         for ($h=0; $h < 40; $h++) {
-            Screen::create([]);
+            Screen::create([
+                'fingerprint' => Str::random(80),
+            ]);
         }
 
         User::create([
