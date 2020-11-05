@@ -1,7 +1,7 @@
 <div class="uk-card uk-card-header">
     <div class="uk-card-body uk-padding-remove">
         <div class="uk-overflow-auto">
-            <table class="uk-table uk-table-divider uk-table-hover">
+            <table class="uk-table uk-table-divider uk-table-hover uk-padding-remove">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -10,7 +10,7 @@
                         <th>الرقم المرجعي</th>
                         <th>نوع الشعبة</th>
                         <th>أيام</th>
-                        <th>أوقات</th>
+                        <th class="uk-width-small">أوقات</th>
                         <th>قاعة</th>
                         <th>المدرب</th>
                         <th></th>

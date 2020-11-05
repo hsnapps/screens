@@ -97,6 +97,12 @@ class ScreenController extends Controller
             }
         }
         if (isset($current)) {
+            // Change the fingerprint if the lecture end greater than or equals the screen's last update
+            if ($current->end->greaterThanOrEqualTo($screen->updated_at)) {
+                $screen->fingerprint = Str::random(80);
+                $screen->save();
+            }
+
             $html = view('monitor.lecture', ['lecture' => $current])->render();
 
             return json_encode([
