@@ -16,4 +16,6 @@ return [
     'to' => 'وقت النهاية',
 
     'format' => 'Y/m/d الساعة h:i',
+    'associated_with' => 'مرتبطة بالقاعة :hall',
+    'free' => 'غير محددة',
 ];

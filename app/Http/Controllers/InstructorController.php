@@ -29,9 +29,15 @@ class InstructorController extends Controller
 
     public function uploadPhoto(Request $request)
     {
+        // dd($request->all());
+
         $request->validate([
-            'photo' => 'required|mimes:jpeg,jeg,bmp,png|max:2048',
+            'photo' => 'nullable|mimes:jpeg,jeg,bmp,png|max:2048',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|numeric',
         ]);
+
+        $instructor = Instructor::findOrFail($request->id);
 
         if ($request->hasFile('photo')) {
             if ($request->file('photo')->isValid()) {
@@ -39,15 +45,17 @@ class InstructorController extends Controller
                 $file_name = Str::random(10).'.'.$extension;
                 $request->photo->storeAs('photos', $file_name);
 
-                $instructor = Instructor::findOrFail($request->id);
-                $instructor->photo = $file_name;
-                $instructor->save();
 
-                return back()->with('success', __('instructors.photo-uploaded'));
+                $instructor->photo = $file_name;
             } else {
                 return back()->with('error', __('instructors.photo-invalid'));
             }
         }
+
+        $instructor->phone = $request->phone;
+        $instructor->email = $request->email;
+        $instructor->save();
+        return back()->with('success', __('instructors.updated'));
     }
 
     public function removePhoto(Request $request)

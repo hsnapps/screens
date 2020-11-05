@@ -2,7 +2,8 @@
 
 @section('content')
 @include('shared.validation')
-<div class="uk-child-width-expand" uk-grid>
+<form class="uk-child-width-expand" method="POST" action="{{ route('instructors.upload') }}" enctype="multipart/form-data" uk-grid>
+    @csrf
     <div></div>
     <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
         <div class="uk-grid-collapse uk-child-width-expand uk-margin-medium-bottom" uk-grid>
@@ -16,15 +17,15 @@
             <div class="uk-width-2-3">
                 <div class="uk-form-stacked">
                     <div>
-                        <label class="uk-form-label">رقم المدرب</label>
+                        <label class="uk-form-label">{{ __('instructors.id') }}</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input uk-width-1-1" id="form-stacked-text" type="text" readonly value="{{ $instructor->computer_id }}">
+                            <input class="uk-input uk-width-1-1" type="text" readonly value="{{ $instructor->computer_id }}">
                         </div>
                     </div>
-                    <div>
-                        <div class="uk-form-label">اسم المدرب</div>
+                    <div class="uk-margin-top uk-margin-bottom">
+                        <div class="uk-form-label">{{ __('instructors.name') }}</div>
                         <div class="uk-form-controls">
-                            <input class="uk-input uk-width-1-1" id="form-stacked-text" type="text" readonly value="{{ $instructor->name }}">
+                            <input class="uk-input uk-width-1-1" type="text" readonly value="{{ $instructor->name }}">
                         </div>
                     </div>
                 </div>
@@ -41,30 +42,50 @@
                 @endif
             </div>
         </div>
+
+        <div class="uk-margin-remove" uk-grid>
+            <div class="uk-width-1-2 uk-padding-remove">
+                <label class="uk-form-label">{{ __('instructors.email') }}</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input uk-width-1-1" name="email" type="email" value="{{ $instructor->email }}" maxlength="255">
+                </div>
+            </div>
+            <div class="uk-width-1-2">
+                <label class="uk-form-label">{{ __('instructors.phone') }}</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input uk-width-1-1" name="phone" type="text" value="{{ $instructor->phone }}" maxlength="5">
+                </div>
+            </div>
+        </div>
+
         <div class="uk-grid-collapse uk-child-width-expand uk-margin-medium-top" uk-grid>
             <div>
-                <form id="upload-from" class="uk-width-1-1" method="POST" action="{{ route('instructors.upload') }}" enctype="multipart/form-data" uk-form-custom>
-                    @csrf
+                <div class="uk-width-1-1" uk-form-custom>
                     <input type="file" name="photo">
                     <input type="hidden" name="id" value="{{ $instructor->id }}">
-                    <button class="uk-button uk-button-default uk-width-1-1" type="button" style="color: #174F3F !important" tabindex="-1">ملف الصورة</button>
-                </form>
+                    <button class="uk-button uk-button-default uk-width-1-1" type="button" style="color: #174F3F !important" tabindex="-1">{{ __('instructors.pick-file') }}</button>
+                </div>
             </div>
             <div>
-                <button id="upload-btn" class="uk-button uk-button-default uk-width-1-1" style="color: #174F3F !important"><span style="color: #174F3F !important" uk-icon="push"></span> حفظ الصورة</button>
+                <button type="submit" class="uk-button uk-button-default uk-width-1-1" style="color: #174F3F !important"><span style="color: #174F3F !important" uk-icon="push"></span> {{ __('instructors.save-photo') }}</button>
             </div>
-            <form method="POST" action="{{ route('instructors.remove') }}">
-                @csrf
-                <input type="hidden" name="id" value="{{ $instructor->id }}">
-                <button class="uk-button uk-button-default uk-width-1-1" style="color: #174F3F !important"><span uk-icon="close" style="color: #174F3F !important"></span> حذف الصورة</button>
-            </form>
+            <div>
+                <button class="uk-button uk-button-default uk-width-1-1" style="color: #174F3F !important" type="button" onclick="document.getElementById('instructors.remove').submit();">
+                    <span uk-icon="close" style="color: #174F3F !important"></span> {{ __('instructors.remove-photo') }}
+                </button>
+            </div>
         </div>
         <div>
             <span id="file-name" class="uk-text-center"></span>
         </div>
     </div>
     <div></div>
-</div>
+</form>
+
+<form id="instructors.remove" method="POST" action="{{ route('instructors.remove') }}">
+    @csrf
+    <input type="hidden" name="id" value="{{ $instructor->id }}">
+</form>
 @endsection
 
 @push('scripts')
@@ -75,6 +96,11 @@
 
     $('[name="photo"]').change(function() {
         $('#file-name').text($(this).val());
+    });
+
+
+    $('#remove-photo').click(function() {
+        $('#instructors.remove').submit();
     });
 </script>
 @endpush

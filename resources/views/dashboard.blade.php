@@ -29,10 +29,4 @@
 @endsection
 
 @push('scripts')
-<script>
-    $('[data-link]').click(function() {
-        var route = $(this).data('link');
-        document.location.assign(route);
-    });
-</script>
 @endpush
