@@ -25,4 +25,9 @@ class Announcement extends Model
         'begin',
         'end',
     ];
+
+    public function screen()
+    {
+        return $this->belongsTo(Screen::class);
+    }
 }

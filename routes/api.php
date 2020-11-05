@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('screen/{id}', 'ScreenController@getMonitorContnet');
+Route::get('screen', 'ScreenController@getMonitorContnet');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Screen;
 use App\Schedule;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class ScreenController extends Controller
@@ -40,10 +41,12 @@ class ScreenController extends Controller
 
     public function minitor($id)
     {
-        $interval = 60 * 1000;
+        $screen = Screen::findOrFail($id);
+        $fingerprint = $screen->fingerprint;
+
         return view('screens.monitor', [
             'screen' => $id,
-            'interval' => $interval,
+            'fingerprint' => $fingerprint,
         ]);
     }
 
@@ -52,22 +55,30 @@ class ScreenController extends Controller
      * @param int $id
      * @return string
      */
-    public function getMonitorContnet($id) : string
+    public function getMonitorContnet(Request $request)
     {
-        $screen = Screen::findOrFail($id);
-        $interval = 60 * 1000;
+        $screen = Screen::findOrFail($request->screen);
+        $fingerprint = $screen->fingerprint;
 
         // Check For Announcements
-        $announcements = $screen->announcements()->where('is_active', true)->get();
-        if ($announcements->count() > 0 && isset($screen->content_start)) {
-            $begin = $screen->content_start;
-            $interval = $begin->diffInRealMilliseconds($screen->content_end);
-            $html = view('monitor.announcements', ['announcements' => $announcements])->render();
+        if(isset($screen->content_start) && isset($screen->content_end)) {
+            // If content_end greater than now remove timings and change fingerprint
+            if (now()->greaterThanOrEqualTo($screen->content_end)) {
+                $screen->content_start = null;
+                $screen->content_end = null;
+                $screen->fingerprint = Str::random(80);
+                $screen->save();
+            } else {
+                $announcements = $screen->announcements()->where('is_active', true)->get();
+                if ($announcements->count() > 0) {
+                    $html = view('monitor.announcements', ['announcements' => $announcements])->render();
 
-            return json_encode([
-                'html' => $html,
-                'interval' => $interval,
-            ]);
+                    return json_encode([
+                        'html' => $html,
+                        'fingerprint' => $fingerprint,
+                    ]);
+                }
+            }
         }
 
         // Check For Lectures
@@ -86,14 +97,11 @@ class ScreenController extends Controller
             }
         }
         if (isset($current)) {
-            $begin = now();
-            $end = $current->end;
-            $interval = $begin->diffInRealMilliseconds($end);
             $html = view('monitor.lecture', ['lecture' => $current])->render();
 
             return json_encode([
                 'html' => $html,
-                'interval' => $interval,
+                'fingerprint' => $fingerprint,
             ]);
         }
 
@@ -101,7 +109,7 @@ class ScreenController extends Controller
         $html = view('monitor.default')->render();
         return json_encode([
             'html' => $html,
-            'interval' => $interval,
+            'fingerprint' => $fingerprint,
         ]);
     }
 

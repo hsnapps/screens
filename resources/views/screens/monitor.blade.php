@@ -39,16 +39,18 @@
         setTimeout(() => {loadContnet()}, 50);
 
         var screen = '{{ $screen }}';
-        var interval = Number('{{ $interval }}');
-        var timer = setInterval(() => { loadContnet(); }, interval);
+        var fingerprint = '';
+
+        setInterval(() => { loadContnet(); }, 10 * 1000);
 
         function loadContnet() {
-            fetch('/api/screen/' + screen)
+            fetch('/api/screen/?screen=' + screen + '&fingerprint=' + fingerprint)
                 .then(res => res.json())
                 .then(data => {
-                    clearInterval(timer);
-                    document.getElementById('contnet').innerHTML = data.html;
-                    timer = setInterval(() => { loadContnet(); }, data.interval);
+                    if (data.fingerprint !== fingerprint) {
+                        document.getElementById('contnet').innerHTML = data.html;
+                        fingerprint = data.fingerprint;
+                    }
                 })
                 .catch(err => console.error(err));
         }

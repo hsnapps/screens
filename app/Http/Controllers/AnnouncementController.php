@@ -19,24 +19,28 @@ class AnnouncementController extends Controller
 
     public function create(Request $request)
     {
+        $announcement = null;
+
         if ($request->type == 'text') {
-            Announcement::create([
+            $announcement = Announcement::create([
                 'screen_id' => $request->screen_id,
                 'type' => $request->type,
                 'value' => $request->text,
                 'is_active' => true,
-                // 'begin' => $request->begin,
-                // 'end' => $request->end,
             ]);
         } else {
-            $this->addContent($request);
+            $announcement = $this->addContent($request);
         }
+
+        $announcement->screen()->update([
+            'fingerprint' => Str::random(80),
+        ]) ;
 
         return back()->with('success', __('announcements.create'));
 
     }
 
-    private function addContent(Request $request, Announcement $announcement = null)
+    private function addContent(Request $request, Announcement $announcement = null) : Announcement
     {
         $request->validate([
             'content' => $this->rules[$request->type],
@@ -59,7 +63,7 @@ class AnnouncementController extends Controller
                 // 'end' => $request->end,
             ]);
         } else {
-            Announcement::create([
+            $announcement = Announcement::create([
                 'screen_id' => $request->screen_id,
                 'type' => $request->type,
                 'value' => $file_name,
@@ -70,6 +74,8 @@ class AnnouncementController extends Controller
         }
 
         DB::commit();
+
+        return $announcement;
     }
 
     public function update(Request $request)
@@ -85,6 +91,9 @@ class AnnouncementController extends Controller
             $this->addContent($request, $announcement);
         }
 
+        $announcement->screen()->update([
+            'fingerprint' => Str::random(80),
+        ]) ;
         return back()->with('success', __('announcements.update'));
     }
 

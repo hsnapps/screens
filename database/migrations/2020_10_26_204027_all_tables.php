@@ -74,7 +74,6 @@ class AllTables extends Migration
             $table->string('hall', 25)->nullable();
             $table->dateTime('content_start')->nullable();
             $table->dateTime('content_end')->nullable();
-            $table->string('snapshot')->nullable();
             $table->char('fingerprint', 80)->nullable();
             $table->timestamps();
         });
