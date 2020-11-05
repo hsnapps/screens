@@ -41,8 +41,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('remove-photo', 'InstructorController@removePhoto')->name('instructors.remove');
     });
 
-    Route::get('timing', 'TimingController@show')->name('timing.get');
-    Route::post('timing', 'TimingController@update')->name('timing.post');
+    // Route::get('timing', 'TimingController@show')->name('timing.get');
+    // Route::post('timing', 'TimingController@update')->name('timing.post');
 
     Route::resource('users', 'UserController')->only(['index', 'update', 'destroy', 'store']);
     Route::get('users/table', 'UserController@loadUsers')->name('users.table');

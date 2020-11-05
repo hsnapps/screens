@@ -7,9 +7,9 @@ return [
         route('users.index'),
     ],
     1 => [
-        'clock',
-        'توقيت المحاضرات',
-        route('timing.get'),
+        'user',
+        'المحاضرين',
+        route('instructors.index'),
     ],
     2 => [
         'calendar',
@@ -22,9 +22,9 @@ return [
         route('screens.index'),
     ],
     4 => [
-        'user',
-        'المحاضرين',
-        route('instructors.index'),
+        'ignore',
+        '',
+        '#',
     ],
     5 => [
         'info',
