@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Instructor;
-use App\Exports\InstructorExport;
-use App\Imports\InstructorsImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -15,6 +13,7 @@ class InstructorController extends Controller
     {
         return view('instructors.index', [
             'title' => __('instructors.title'),
+            'instructors' => Instructor::paginate()
         ]);
     }
 
