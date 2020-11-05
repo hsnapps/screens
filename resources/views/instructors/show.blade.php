@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+@include('shared.validation')
 <div class="uk-child-width-expand" uk-grid>
     <div></div>
     <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
