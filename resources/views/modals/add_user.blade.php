@@ -2,21 +2,35 @@
     @csrf
     <div class="uk-modal-dialog">
         <button class="uk-modal-close-default" type="button" uk-close></button>
+
         <div class="uk-modal-header">
             <h2 class="uk-modal-title">{{ __('users.add-user') }}</h2>
         </div>
+
         <div class="uk-modal-body" class="uk-form-stacked">
-             <div class="uk-margin">
+
+            <div class="uk-margin">
                 <label class="uk-form-label" for="name">{{ __('users.name') }}</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" name="name" type="text" placeholder="{{ __('users.name') }}" maxlength="100">
+                    <input class="uk-input" name="name" type="text" placeholder="{{ __('users.name') }}" maxlength="100" required>
                 </div>
             </div>
 
             <div class="uk-margin">
                 <label class="uk-form-label" for="username">{{ __('users.username') }}</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" name="username" type="text" placeholder="{{ __('users.username') }}" maxlength="15">
+                    <input class="uk-input" name="username" type="text" placeholder="{{ __('users.username') }}" required maxlength="15">
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label><input class="uk-checkbox" name="is_admin" type="checkbox"> {{ __('users.is_admin') }}</label>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="section">{{ __('users.section') }}</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" name="section" type="text" placeholder="{{ __('users.section') }}" maxlength="100">
                 </div>
             </div>
         </div>

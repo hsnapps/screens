@@ -10,5 +10,12 @@ class Instructor extends Model
         'computer_id',
         'name',
         'photo',
+        'email',
+        'phone',
     ];
+
+    public function lectures()
+    {
+        return $this->hasMany(Schedule::class, 'instructor_id', 'computer_id');
+    }
 }

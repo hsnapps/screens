@@ -69,21 +69,31 @@
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/json',
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    var message = jqXHR.responseJSON.message;
+                    if (jqXHR.responseJSON) {
+                        var message = jqXHR.responseJSON.message;
 
-                    UIkit.notification({
-                        message: '<span uk-icon=\'icon: warning\'></span>&nbsp;' + message,
-                        status: 'danger',
-                        pos: 'top-center',
-                        timeout: 5000
-                    });
-                    console.log('Exception: ' + jqXHR.responseJSON.exception);
-                    console.log('File: ' + jqXHR.responseJSON.file);
-                    console.log('Line: ' + jqXHR.responseJSON.line);
-                    console.log('Message: ' + jqXHR.responseJSON.message);
+                        UIkit.notification({
+                            message: '<span uk-icon=\'icon: warning\'></span>&nbsp;' + message,
+                            status: 'danger',
+                            pos: 'top-center',
+                            timeout: 5000
+                        });
+                        console.log('Exception: ' + jqXHR.responseJSON.exception);
+                        console.log('File: ' + jqXHR.responseJSON.file);
+                        console.log('Line: ' + jqXHR.responseJSON.line);
+                        console.log('Message: ' + jqXHR.responseJSON.message);
+                    } else {
+                        UIkit.notification({
+                            message: '<span uk-icon=\'icon: warning\'></span>&nbsp;' + errorThrown,
+                            status: 'danger',
+                            pos: 'top-center',
+                            timeout: 5000
+                        });
+                        console.error(jqXHR);
+                    }
                 }
             });
 

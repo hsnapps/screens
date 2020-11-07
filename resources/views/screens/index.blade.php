@@ -17,9 +17,9 @@
         @foreach (App\Screen::all()->skip($i)->take(5) as $screen)
         <div class="uk-width-1-5" data-link="{{ route('screens.show', ['screen' => $screen]) }}">
             @if (isset($screen->hall))
-                <div class="uk-card uk-card-default uk-card-body">{{ $screen->id }}<br>{{ $screen->hall }}</div>
+                <div class="uk-card uk-card-default uk-card-body">{{ $screen->id }}<br>{{ $screen->hall }}<br><span class="uk-text-small">{{ isset($screen->user) ? $screen->user->name : '' }}</span></div>
             @else
-                <div class="uk-card uk-card-default uk-card-body uk-background-muted">{{ $screen->id }}<br>{{ __('screens.free') }}</div>
+                <div class="uk-card uk-card-body uk-background-muted">{{ $screen->id }}<br>{{ __('screens.free') }}<br><span class="uk-text-small">{{ isset($screen->user) ? $screen->user->name : '' }}</span></div>
             @endif
         </div>
         @endforeach

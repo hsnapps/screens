@@ -3,7 +3,7 @@
     src: url(/fonts/hanimation-regular.ttf);
 }
 
-body {
+body, h1, h2, h3, h4, h5, h6, p {
     background: rgb(55, 60, 56);
     background: -moz-linear-gradient(90deg, rgba(55, 60, 56, 1) 0%, rgba(27, 77, 62, 1) 35%, rgba(0, 87, 63, 1) 100%);
     background: -webkit-linear-gradient(90deg, rgba(55, 60, 56, 1) 0%, rgba(27, 77, 62, 1) 35%, rgba(0, 87, 63, 1) 100%);
@@ -118,4 +118,16 @@ table.uk-table > tr:nth-last-of-type(even) > td > a:link {
 
 .uk-modal-close {
     color: #31403A !important;
+}
+
+.uk-modal-header {
+    background: #fff !important;
+}
+
+.uk-modal-header > h2 {
+    background: #fff !important;
+}
+
+.uk-heading-divider {
+    background: #fff !important;
 }

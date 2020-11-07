@@ -15,3 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('screen', 'ScreenController@getMonitorContnet');
+
+Route::prefix('users')->group(function () {
+    Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
+});

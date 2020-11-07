@@ -16,7 +16,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password',
+        'name',
+        'username',
+        'password',
+        'is_admin',
+        'section',
     ];
 
     /**
@@ -34,6 +38,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-
+        'is_admin' => 'boolean',
     ];
+
+    public function screens()
+    {
+        return $this->hasMany(Screen::class);
+    }
 }

@@ -44,9 +44,17 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('timing', 'TimingController@show')->name('timing.get');
     // Route::post('timing', 'TimingController@update')->name('timing.post');
 
-    Route::resource('users', 'UserController')->only(['index', 'update', 'destroy', 'store']);
-    Route::get('users/table', 'UserController@loadUsers')->name('users.table');
-    Route::post('users/password', 'UserController@changePassword')->name('users.password');
+    Route::prefix('users')->group(function () {
+        Route::get('', 'UserController@index')->name('users.index');
+        Route::get('table', 'UserController@loadUsers')->name('users.table');
+        Route::put('{user}', 'UserController@update')->name('users.update');
+        Route::post('{user}', 'UserController@update')->name('users.edit');
+        Route::post('', 'UserController@store')->name('users.store');
+        Route::post('password', 'UserController@changePassword')->name('users.password');
+        Route::post('screens/{user}', 'UserController@assignScreen')->name('users.screens');
+    });
+
+    // Route::resource('users', 'UserController')->only(['index', 'update', 'destroy', 'store']);
 
     Route::get('/', 'HomeController@index')->name('dashboard');
     Route::get('/about', 'HomeController@about')->name('about');

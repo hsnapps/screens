@@ -37,12 +37,17 @@
                     var name = $('#input-name-' + id).val();
                     var username = $('#input-username-' + id).val();
 
+                    var section = $('#input-section-' + id).val();
+                    var is_admin = $('#input-is_admin-' + id).prop('checked');
+
                     $.ajax({
                         url: route,
-                        method: 'PUT',
+                        method: 'POST',
                         data: {
                             name: name,
-                            username: username
+                            username: username,
+                            section: section,
+                            is_admin: is_admin
                         },
                         dataType: 'json',
                         beforeSend: function() {
@@ -89,6 +94,14 @@
                                     status: 'success',
                                     pos: 'top-center',
                                     timeout: 5000
+                                });
+                            },
+                            complete: function() {
+                                $('.toggle-update').each(function() {
+                                    UIkit.toggle($(this)).toggle();
+                                });
+                                $('.toggle-edit').each(function() {
+                                    UIkit.toggle($(this)).toggle();
                                 });
                             }
                         });

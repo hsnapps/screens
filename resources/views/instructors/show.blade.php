@@ -1,5 +1,13 @@
 @extends('layout')
 
+@push('styles')
+<style>
+.uk-heading-divider {
+    background: inherit !important;
+}
+</style>
+@endpush
+
 @section('content')
 @include('shared.validation')
 <form class="uk-child-width-expand" method="POST" action="{{ route('instructors.upload') }}" enctype="multipart/form-data" uk-grid>
@@ -81,6 +89,11 @@
     </div>
     <div></div>
 </form>
+
+<div class="uk-margin-top">
+    <h1 style="color: #ffffff" class="uk-heading-divider">{{ __('instructors.lectures') }}</h1>
+    @include('schedules._lectures', ['rows' => $instructor->lectures()->orderBy('day_index')->orderBy('start')->get()])
+</div>
 
 <form id="instructors.remove" method="POST" action="{{ route('instructors.remove') }}">
     @csrf

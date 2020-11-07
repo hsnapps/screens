@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Screen;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -28,6 +29,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
+            'is_admin' => $request->has('is_admin'),
+            'section' => $request->section,
             'password' => bcrypt('1234'),
         ]);
 
@@ -44,20 +47,21 @@ class UserController extends Controller
             ]);
         }
 
-        if ($request->isMethod('PUT')) {
+        if ($request->isMethod('POST')) {
             $user->name = $request->name;
             $user->username = $request->username;
+            $user->is_admin = $request->has('is_admin');
+            $user->section = $request->section;
             $user->save();
+
+            return back()->with('success', __('users.update-user-confirmation', ['name' => $user->name]));
 
             return response()->json([
                 'message' => __('users.update-user-confirmation', ['name' => $user->name]),
                 'name' => $user->name,
                 'username' => $user->username,
             ]);
-
-            return $user->toJson();
         }
-
     }
 
     public function destroy(User $user)
@@ -81,5 +85,21 @@ class UserController extends Controller
         }
 
         return back()->with('error', __('users.invalid-password-message'));
+    }
+
+    public function assignScreen(Request $request, User $user)
+    {
+        foreach ($user->screens as $screen) {
+            $screen->user_id = null;
+            $screen->save();
+        }
+
+        foreach ($request->screen as $key => $value) {
+            $screen = Screen::find($value);
+            $screen->user_id = $user->id;
+            $screen->save();
+        }
+
+        return back()->with('success', __('users.screens-message'));
     }
 }
