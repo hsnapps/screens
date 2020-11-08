@@ -133,5 +133,5 @@ table.uk-table > tr:nth-last-of-type(even) > td > a:link {
 }
 
 .background-selected {
-    background: #f0c8c8 !important;
+    background: #e0dddd !important;
 }

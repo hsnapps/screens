@@ -76,7 +76,7 @@ class ScreenController extends Controller
         $screen = Screen::findOrFail($request->screen);
         $fingerprint = $screen->fingerprint;
 
-        // Check For Announcements
+        // Check For Text Announcements
         if(isset($screen->content_start) && isset($screen->content_end)) {
             // If content_end greater than now remove timings and change fingerprint
             if (now()->greaterThanOrEqualTo($screen->content_end)) {
@@ -85,15 +85,15 @@ class ScreenController extends Controller
                 $screen->fingerprint = Str::random(80);
                 $screen->save();
             } else {
-                $announcements = $screen->announcements()->where('is_active', true)->get();
-                if ($announcements->count() > 0) {
-                    $html = view('monitor.announcements', ['announcements' => $announcements])->render();
-
-                    return json_encode([
-                        'html' => $html,
-                        'fingerprint' => $fingerprint,
-                    ]);
-                }
+                $announcements = $screen->announcements()->where([
+                    ['is_active', '=', true],
+                    ['type', '=', 'text'],
+                ])->get();
+                $html = view('monitor.announcements', ['announcements' => $announcements])->render();
+                return json_encode([
+                    'html' => $html,
+                    'fingerprint' => $fingerprint,
+                ]);
             }
         }
 
@@ -127,6 +127,29 @@ class ScreenController extends Controller
             ]);
         }
 
+
+        // Check For Othrt Announcements
+        if(isset($screen->content_start) && isset($screen->content_end)) {
+            // If content_end greater than now remove timings and change fingerprint
+            if (now()->greaterThanOrEqualTo($screen->content_end)) {
+                $screen->content_start = null;
+                $screen->content_end = null;
+                $screen->fingerprint = Str::random(80);
+                $screen->save();
+            } else {
+                $announcements = $screen->announcements()->where([
+                    ['is_active', '=', true],
+                    ['type', '!=', 'text'],
+                ])->get();
+                $html = view('monitor.announcements', ['announcements' => $announcements])->render();
+                return json_encode([
+                    'html' => $html,
+                    'fingerprint' => $fingerprint,
+                ]);
+            }
+        }
+
+    RETURN_DEFAULT:
         // Return default
         $html = view('monitor.default')->render();
         return json_encode([

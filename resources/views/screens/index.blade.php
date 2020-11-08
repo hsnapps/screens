@@ -35,11 +35,11 @@
 
         <div class="uk-width-1-5" data-link="{{ $add_link ? route('screens.show', ['screen' => $screen]) : null }}" style="z-index: inherit">
             @if (isset($screen->hall))
-                <div class="uk-card uk-card-default uk-card-body{{ isset($screen->user) ? ' background-selected' : '' }}">
+                <div class="uk-card uk-card-default uk-card-body uk-background-muted{{ isset($screen->user) ? ' background-selected' : '' }}">
                     {{ $screen->id }}<br>{{ $screen->hall }}<br><span class="uk-text-small">{!! isset($screen->user) ? $screen->user->name : '&nbsp;&nbsp;' !!}</span>
                 </div>
             @else
-                <div class="uk-card uk-card-body uk-background-muted{{ isset($screen->user) ? ' background-selected' : '' }}">
+                <div class="uk-card uk-card-default uk-card-body{{ isset($screen->user) ? ' background-selected' : '' }}">
                     {{ $screen->id }}<br>{{ __('screens.free') }}<br><span class="uk-text-small">{!! isset($screen->user) ? $screen->user->name : '&nbsp;&nbsp;' !!}</span>
                 </div>
             @endif
