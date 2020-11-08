@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Announcement;
+use App\Screen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -22,6 +23,10 @@ class AnnouncementController extends Controller
         $announcement = null;
 
         if ($request->type == 'text') {
+            $request->validate([
+                'text' => 'required|max:255',
+            ]);
+
             $announcement = Announcement::create([
                 'screen_id' => $request->screen_id,
                 'type' => $request->type,
@@ -34,7 +39,7 @@ class AnnouncementController extends Controller
 
         $announcement->screen()->update([
             'fingerprint' => Str::random(80),
-        ]) ;
+        ]);
 
         return back()->with('success', __('announcements.create'));
 
@@ -122,6 +127,46 @@ class AnnouncementController extends Controller
 
     public function addGlobal(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+
+        $request->validate([
+            'content_start' => 'required|date:H:i Y-m-d',
+            'content_end' => 'required|date:H:i Y-m-d',
+            'text' => 'required|max:255',
+        ]);
+
+        DB::transaction(function () use($request) {
+            $user = $request->user();
+
+            if ($user->is_admin) {
+                $screens = Screen::all();
+            } else {
+                $screens = Screen::where('user_id', $user->id)->get();
+            }
+
+            foreach ($screens as $screen) {
+                $announcements = $screen->announcements;
+
+                foreach ($announcements as $announcement) {
+                    $announcement->update(['is_active' => false]);
+                }
+
+                $screen->update([
+                    'fingerprint' => Str::random(80),
+                    'content_start' => $request->content_start,
+                    'content_end' => $request->content_end,
+                ]);
+
+                Announcement::create([
+                    'screen_id' => $screen->id,
+                    'type' => 'text',
+                    'value' => $request->text,
+                    'is_active' => true,
+                ]);
+            }
+        });
+
+
+        return back()->with('success', __('announcements.create'));
     }
 }

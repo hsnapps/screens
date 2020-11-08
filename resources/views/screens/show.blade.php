@@ -29,7 +29,7 @@
         text-align: center;
     }
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/jquery.datetimepicker.min.css" />
+<link rel="stylesheet" href="{{ url('css/jquery.datetimepicker.min.css') }}" />
 @endpush
 
 @section('content')
@@ -47,7 +47,7 @@
     @endif
 
     @include('screens._hall')
-    @include('screens._times')
+    @include('screens._times', ['buttons' => true])
 </div>
 
 <div class="uk-padding">

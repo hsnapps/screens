@@ -9,7 +9,6 @@ class Screen extends Model
     protected $fillable = [
         'content_start',
         'content_end',
-        'snapshot',
         'fingerprint',
         'user_id',
     ];
