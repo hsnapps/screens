@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="uk-margin-small">
-                        <label><input class="uk-checkbox" type="checkbox"> &nbsp; {{ __('auth.remember') }}</label>
+                        <label><input class="uk-checkbox" type="checkbox" name="remember"> &nbsp; {{ __('auth.remember') }}</label>
                     </div>
                     <div class="uk-margin-bottom">
                         <button type="submit" class="uk-button uk-button-green uk-border-pill uk-width-1-1">{{ __('auth.login') }}</button>
