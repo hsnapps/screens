@@ -21,6 +21,13 @@
         border-bottom-style: solid;
         border-bottom-width: thin;
     }
+
+    .user-name {
+        float: left;
+        margin-top: -25px;
+        margin-left: -20px;
+        text-align: center;
+    }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/jquery.datetimepicker.min.css" />
 @endpush
@@ -35,6 +42,10 @@
 </div>
 
 <div class="uk-card uk-card-default uk-card-body">
+    @if (isset($screen->user))
+    <div class="user-name">{{ $screen->user->name }}<br>{{ $screen->user->section }}</div>
+    @endif
+
     @include('screens._hall')
     @include('screens._times')
 </div>
@@ -80,17 +91,31 @@
 
 @push('scripts')
 <script src="{{ url('js/jquery-ui.min.js') }}"></script>
-<script src="{{ url('js/jquery.datetimepicker.full.js') }}"></script>
+<script src="{{ url('js/jquery.datetimepicker.full.min.js') }}"></script>
 <script src="{{ url('js/rainbow-custom.min.js') }}"></script>
 <script>
     var timer = null;
 
     $(document).ready(function() {
-        var options = { format: 'H:i Y-m-d' };
-        console.log($.datetimepicker);
+        var datetimepickerOptions = {
+            format: 'H:i Y-m-d',
+            i18n: {
+                ar: {
+                    months: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمير', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                    dayOfWeekShort: ['ن', 'ث', 'ع', 'خ', 'ج', 'س', 'ح'],
+                    dayOfWeek: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد']
+                }
+            },
+            rtl: true,
+            hours12: true,
+            parentID: 'body',
+            weekends: [
+                'الجمعة', 'السبت'
+            ],
+        };
+
         $.datetimepicker.setLocale('ar');
-       	$('#begin').datetimepicker(options);
-       	$('#end').datetimepicker(options);
+       	$('.datetimepicker').datetimepicker(datetimepickerOptions);
     });
 
     $('[name="content"]').change(function() {

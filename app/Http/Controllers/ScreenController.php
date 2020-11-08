@@ -10,15 +10,31 @@ use Illuminate\Http\Request;
 
 class ScreenController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $buttonText = $request->user()->is_admin ? __('screens.add-global') : __('screens.add-mine');
+
         return view('screens.index', [
             'title' => __('screens.title'),
+            'button' => $buttonText,
         ]);
     }
 
-    public function show(Screen $screen)
+    public function show(Request $request, Screen $screen)
     {
+        $show = false;
+        if($request->user()->is_admin) {
+            $show = true;
+        } else {
+            if (isset($screen->user)) {
+                if ($screen->user->id == $request->user()->id) {
+                    $show = true;
+                }
+            }
+        }
+
+        abort_if(!$show, 403);
+
         $lectures = Schedule::where('hall', $screen->hall)
             ->orderBy('day_index', 'asc')
             ->orderBy('start', 'asc')

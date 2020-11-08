@@ -24,14 +24,8 @@
             <td>{{ $user->updated_at->format('H:i Y-m-d') }}</td>
             <td>
                 <ul class="uk-iconnav">
-                    @if (Auth::user()->is_admin)
                     <li uk-tooltip="{{ __('users.edit') }}"><a href="#edit-{{ $user->id }}" uk-toggle uk-icon="icon: file-edit; ratio: 1.15"></a></li>
-                    @endif
-
-                    @if (!$user->is_admin)
                     <li uk-tooltip="{{ __('users.screens') }}"><a href="#screens-{{ $user->id }}" uk-toggle uk-icon="icon: thumbnails; ratio: 1.15"></a></li>
-                    @endif
-
                     <li uk-tooltip="{{ __('users.unlock') }}"><a data-unlock="{{ $user->id }}" data-name="{{ $user->name }}" data-route="{{ route('users.edit', ['user' => $user]) }}" href="#" uk-icon="icon: unlock; ratio: 1.15"></a></li>
                     <li uk-tooltip="{{ __('users.delete') }}"><a data-delete="{{ $user->id }}" data-name="{{ $user->name }}" data-route="{{ route('users.destroy', ['user' => $user]) }}" class="uk-text-danger" href="#" uk-icon="icon: trash; ratio: 1.15"></a></li>
                 </ul>

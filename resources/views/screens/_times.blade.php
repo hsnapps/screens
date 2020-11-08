@@ -7,7 +7,7 @@
     </div>
     <div>
         <div class="uk-form-controls">
-            <input type="text" name="content_start" id="begin" class="uk-input" autocomplete="off" value="{{ isset($screen->content_start) ? $screen->content_start->format('Y/m/d h:i') : '' }}">
+            <input type="text" name="content_start" id="begin" class="uk-input datetimepicker" autocomplete="off" value="{{ isset($screen->content_start) ? $screen->content_start->format('Y/m/d h:i') : '' }}">
         </div>
     </div>
 
@@ -16,7 +16,7 @@
     </div>
     <div>
         <div class="uk-form-controls">
-            <input type="text" name="content_end" id="end" class="uk-input" autocomplete="off" value="{{ isset($screen->content_end) ? $screen->content_end->format('Y/m/d h:i') : '' }}">
+            <input type="text" name="content_end" id="end" class="uk-input datetimepicker" autocomplete="off" value="{{ isset($screen->content_end) ? $screen->content_end->format('Y/m/d h:i') : '' }}">
         </div>
     </div>
 

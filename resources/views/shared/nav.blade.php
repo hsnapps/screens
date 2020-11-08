@@ -1,0 +1,24 @@
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-right">
+        <ul class="uk-navbar-nav">
+            <li><a id="logout" href="#" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: sign-out; ratio: 2"></a></li>
+            <li><a href="{{ route('dashboard') }}" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: home; ratio: 2"></a></li>
+            <li><a href="#users-password" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: lock; ratio: 2" uk-toggle></a></li>
+        </ul>
+        @include('modals.password')
+    </div>
+
+    <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+            <li>
+                <h2 class="my-font uk-margin-small-left" style="color: #ffffff; !important">{{ Auth::user()->name }}</h2>
+            </li>
+            <li>
+                <h2 class="my-font uk-margin-small-left uk-padding-remove" style="color: #ffffff; !important">{{ isset($title) ? '/' : '' }}</h2>
+            </li>
+            <li>
+                <h2 class="my-font uk-margin-large-left" style="color: #ffffff; !important">{{ isset($title) ? $title : '' }}</h2>
+            </li>
+        </ul>
+    </div>
+</nav>

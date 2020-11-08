@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        abort_if(!$request->user()->is_admin, 403);
+
         return view('users.index', [
             'title' => __('users.title')
         ]);
@@ -68,6 +70,8 @@ class UserController extends Controller
     {
         abort_if(User::count() == 1, 403, __('users.only-one-message'));
 
+        $this->removeScreens($user);
+
         $user->delete();
         return response()->json([
             'message' => __('users.destroy-confirmation', ['name' => $user->name])
@@ -89,10 +93,7 @@ class UserController extends Controller
 
     public function assignScreen(Request $request, User $user)
     {
-        foreach ($user->screens as $screen) {
-            $screen->user_id = null;
-            $screen->save();
-        }
+        $this->removeScreens($user);
 
         foreach ($request->screen as $key => $value) {
             $screen = Screen::find($value);
@@ -101,5 +102,13 @@ class UserController extends Controller
         }
 
         return back()->with('success', __('users.screens-message'));
+    }
+
+    public function removeScreens(User $user)
+    {
+        foreach ($user->screens as $screen) {
+            $screen->user_id = null;
+            $screen->save();
+        }
     }
 }

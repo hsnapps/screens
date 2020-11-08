@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('create', 'AnnouncementController@create')->name('announcements.create');
         Route::put('update', 'AnnouncementController@update')->name('announcements.update');
         Route::post('change-active', 'AnnouncementController@changeActive')->name('announcements.change-active');
+        Route::post('add-global', 'AnnouncementController@addGlobal')->name('announcements.global');
         Route::delete('delete', 'AnnouncementController@delete')->name('announcements.delete');
         Route::get('dialog', 'AnnouncementController@getDialog')->name('announcements.dialog');
     });

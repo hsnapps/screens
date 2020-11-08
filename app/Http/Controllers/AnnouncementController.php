@@ -119,4 +119,9 @@ class AnnouncementController extends Controller
         $announcement = Announcement::find($request->id);
         return view('screens._dialog', ['announcement' => $announcement])->render();
     }
+
+    public function addGlobal(Request $request)
+    {
+        dd($request->all());
+    }
 }

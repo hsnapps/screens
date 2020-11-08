@@ -11,29 +11,9 @@
         <link rel="stylesheet" href="{{ url('css/style.css') }}">
         @stack('styles')
 	</head>
-	<body class="{{ Route::currentRouteName() == 'login' ? 'uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport' : '' }}" data-uk-height-viewport>
-        @if (Auth::check())
-        <nav class="uk-navbar-container" uk-navbar>
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav">
-                    <li><a id="logout" href="#" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: sign-out; ratio: 2"></a></li>
-                    <li><a href="{{ route('dashboard') }}" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: home; ratio: 2"></a></li>
-                    <li><a href="#users-password" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: lock; ratio: 2" uk-toggle></a></li>
-                </ul>
-                @include('modals.password')
-            </div>
+    <body class="{{ Route::currentRouteName() == 'login' ? 'uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport' : '' }}" data-uk-height-viewport>
 
-            <div class="uk-navbar-left">
-                <ul class="uk-navbar-nav">
-                    <li>
-                        <h2 class="my-font uk-margin-large-left" style="color: #f1e7e7; font-family: hanimation">{{ isset($title) ? $title : '' }}</h2>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        @endif
-
-        @yield('login')
+        @include('shared.nav')
 
         <div class="uk-container uk-padding-large">
             @yield('content')
@@ -99,7 +79,9 @@
 
             $('[data-link]').click(function() {
                 var route = $(this).data('link');
-                document.location.assign(route);
+                if (route) {
+                    document.location.assign(route);
+                }
             });
         </script>
 

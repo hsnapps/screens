@@ -18,4 +18,9 @@ return [
     'format' => 'Y/m/d الساعة h:i',
     'associated_with' => 'مرتبطة بالقاعة :hall',
     'free' => 'غير محددة',
+
+    'add-global' => 'إضافة إعلان لكافة الشاشات',
+    'add-mine' => 'إضافة إعلان لكافة الشاشات الخاصة بي',
+
+    'announcement_text' => 'نص الإعلان',
 ];

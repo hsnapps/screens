@@ -1,20 +1,22 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 return [
     0 => [
         'users',
         'إدارة المستخدمين',
-        route('users.index'),
+        Auth::user()->is_admin ? route('users.index') : route('dashboard'),
     ],
     1 => [
         'user',
-        'المحاضرين',
+        'المدرسين',
         route('instructors.index'),
     ],
     2 => [
         'calendar',
         'الجداول',
-        route('schedules.index'),
+        Auth::user()->is_admin ? route('schedules.index') : route('dashboard'),
     ],
     3 => [
         'thumbnails',

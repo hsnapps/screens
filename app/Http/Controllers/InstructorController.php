@@ -29,6 +29,7 @@ class InstructorController extends Controller
     public function uploadPhoto(Request $request)
     {
         // dd($request->all());
+        abort_if(!$request->user()->is_admin, 403);
 
         $request->validate([
             'photo' => 'nullable|mimes:jpeg,jeg,bmp,png|max:2048',
