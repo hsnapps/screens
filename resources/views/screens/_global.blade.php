@@ -1,4 +1,4 @@
-<div class="uk-card uk-margin-medium-bottom uk-text-center uk-padding-remove global">
+<div class="uk-card uk-margin-medium-bottom uk-text-center uk-padding global">
     <button class="uk-button uk-button-default uk-margin-small-right uk-text-large uk-width-1-2 uk-padding" type="button" uk-toggle="target: .global; animation: uk-animation-fade">{{ $button }}</button>
 </div>
 

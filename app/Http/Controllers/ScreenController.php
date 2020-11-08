@@ -13,11 +13,26 @@ class ScreenController extends Controller
     public function index(Request $request)
     {
         $buttonText = $request->user()->is_admin ? __('screens.add-global') : __('screens.add-mine');
+        $screens = Screen::all();
 
         return view('screens.index', [
             'title' => __('screens.title'),
             'button' => $buttonText,
+            'screens' => $screens,
         ]);
+    }
+
+    public function add(Request $request)
+    {
+        // dd($request->all());
+
+        Screen::create([
+            'id' => $request->id,
+            'fingerprint' => Str::random(80),
+            'hall' => $request->hall,
+        ]);
+
+        return back()->with('success', __('screens.added'));
     }
 
     public function show(Request $request, Screen $screen)

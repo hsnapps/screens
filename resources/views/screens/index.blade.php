@@ -10,15 +10,16 @@
 
 @section('content')
 
+@include('modals.add_screen')
 @include('screens._global')
 
 @php
     $i = 0;
 @endphp
 
-@while ($i < App\Screen::count())
-    <div class="uk-child-width-expand@s uk-text-center uk-text-large button" uk-grid>
-        @foreach (App\Screen::all()->skip($i)->take(5) as $screen)
+@while ($i < $screens->count())
+    <div class="uk-child-width-expand@s uk-text-center uk-text-large button-container" uk-grid>
+        @foreach ($screens->skip($i)->take(5) as $screen)
 
         @php
             $add_link = false;
@@ -33,7 +34,7 @@
             }
         @endphp
 
-        <div class="uk-width-1-5" data-link="{{ $add_link ? route('screens.show', ['screen' => $screen]) : null }}" style="z-index: inherit">
+        <div class="uk-width-1-5 button" data-link="{{ $add_link ? route('screens.show', ['screen' => $screen]) : null }}" style="z-index: inherit">
             @if (isset($screen->hall))
                 <div class="uk-card uk-card-default uk-card-body uk-background-muted{{ isset($screen->user) ? ' background-selected' : '' }}">
                     {{ $screen->id }}<br>{{ $screen->hall }}<br><span class="uk-text-small">{!! isset($screen->user) ? $screen->user->name : '&nbsp;&nbsp;' !!}</span>

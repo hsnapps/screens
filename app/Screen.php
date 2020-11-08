@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Screen extends Model
 {
     protected $fillable = [
+        'id',
         'content_start',
         'content_end',
         'fingerprint',

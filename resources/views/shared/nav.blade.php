@@ -1,9 +1,22 @@
 <nav class="uk-navbar-container" uk-navbar>
     <div class="uk-navbar-right">
         <ul class="uk-navbar-nav">
-            <li><a id="logout" href="#" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: sign-out; ratio: 2"></a></li>
-            <li><a href="{{ route('dashboard') }}" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: home; ratio: 2"></a></li>
-            <li><a href="#users-password" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: lock; ratio: 2" uk-toggle></a></li>
+            <li>
+                <a id="logout" href="#" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: sign-out; ratio: 2"></a>
+            </li>
+            <li>
+                <a href="{{ route('dashboard') }}" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: home; ratio: 2"></a>
+            </li>
+            <li>
+                <a href="#users-password" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: lock; ratio: 2" uk-toggle></a>
+            </li>
+
+            @if (Route::currentRouteName() == 'screens.index' && Auth::user()->is_admin)
+            <li>
+                <a href="#add-screen" class="uk-button uk-button-default uk-text-muted" uk-icon="icon: desktop; ratio: 2" uk-toggle><span class="uk-text-large my-font">&nbsp;&nbsp;إضافة شاشة&nbsp;&nbsp;</span></a>
+            </li>
+            @endif
+
         </ul>
         @include('modals.password')
     </div>
