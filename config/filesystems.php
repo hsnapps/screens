@@ -48,9 +48,9 @@ return [
             'root' => storage_path('app'),
         ],
 
-        'json' => [
+        'files' => [
             'driver' => 'local',
-            'root' => storage_path('json'),
+            'root' => storage_path('files'),
         ],
 
         'excel' => [
@@ -66,11 +66,6 @@ return [
         'content' => [
             'driver' => 'local',
             'root' => storage_path('app/content'),
-        ],
-
-        'snapshots' => [
-            'driver' => 'local',
-            'root' => storage_path('app/snapshots'),
         ],
 
         'public' => [

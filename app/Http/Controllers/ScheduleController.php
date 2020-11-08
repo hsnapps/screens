@@ -6,7 +6,6 @@ use App\{Instructor, Schedule};
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Imports\ExcelImport;
-use App\Exports\SchedulesExport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,8 +22,9 @@ class ScheduleController extends Controller
 
     public function download()
     {
-        $name = __('schedules.file-name').'.xlsx';
-        return Excel::download(new SchedulesExport, $name);
+        $name = 'الجدول التدريبي الشامل.xlsx';
+        $pathToFile = storage_path('files/excel.xlsx');
+        return response()->download($pathToFile, $name);
     }
 
     public function upload(Request $request)
