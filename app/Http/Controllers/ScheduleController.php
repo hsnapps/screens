@@ -9,6 +9,7 @@ use App\Imports\ExcelImport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class ScheduleController extends Controller
 {
@@ -44,7 +45,15 @@ class ScheduleController extends Controller
                 Instructor::truncate();
                 Schedule::truncate();
 
-                Excel::import(new ExcelImport(), $file_path);
+                try {
+                    Excel::import(new ExcelImport(), $file_path);
+                } catch (ValidationException $e) {
+                    DB::rollBack();
+                    $failures = $e->failures();
+                    foreach ($failures as $failure) {
+                        return back()->with('warning',  __('excel.failure', ['row' => $failure->row(), 'attribute' => $failure->attribute()]));
+                    }
+                }
 
                 $files = Storage::disk('excel')->files();
                 foreach ($files as $f) {

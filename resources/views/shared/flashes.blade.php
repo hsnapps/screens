@@ -21,3 +21,15 @@
     });
 </script>
 @endif
+
+
+@if (session('warning'))
+<script>
+    UIkit.notification({
+        message: '<span uk-icon=\'icon: warning\'></span>&nbsp;' + "{{ session('warning') }}",
+        status: 'warning',
+        pos: 'top-center',
+        timeout: 50000
+    });
+</script>
+@endif
