@@ -40,11 +40,12 @@
 
         var screen = '{{ $screen }}';
         var fingerprint = '';
+        var url = "{{ route('api.monitor', ['screen' => $screen, 'fingerprint' => '']) }}";
 
-        setInterval(() => { loadContnet(); }, 10 * 1000);
+        var timer = setInterval(() => { loadContnet(); }, 10 * 1000);
 
         function loadContnet() {
-            fetch('/api/screen/?screen=' + screen + '&fingerprint=' + fingerprint)
+            fetch(url + fingerprint)
                 .then(res => res.json())
                 .then(data => {
                     if (data.fingerprint !== fingerprint) {
@@ -52,7 +53,13 @@
                         fingerprint = data.fingerprint;
                     }
                 })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    clearInterval(timer);
+                    var html = `<div class="uk-alert-danger uk-text-center uk-margin-xlarge-top uk-text-large" uk-alert><p>حصل خطأ غير معروف. الرجاء إصلاح الخطأ ثم تحديث الصفحة</p><p>${err}</p></div>`;
+                    document.getElementById('contnet').innerHTML = html;
+                    console.error(err);
+                    console.log(url + fingerprint);
+                });
         }
     </script>
 </body>
