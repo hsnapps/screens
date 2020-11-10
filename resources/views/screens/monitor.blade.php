@@ -40,7 +40,7 @@
 
         var screen = '{{ $screen }}';
         var fingerprint = '';
-        var url = "{{ route('api.monitor', ['screen' => $screen, 'fingerprint' => '']) }}";
+        var url = "{{ route('api.monitor', ['screen' => $screen, 'fingerprint' => 'xxxx']) }}";
 
         var timer = setInterval(() => { loadContnet(); }, 10 * 1000);
 
@@ -48,6 +48,7 @@
             fetch(url + fingerprint)
                 .then(res => res.json())
                 .then(data => {
+                    console.log(url.replace('xxxx', fingerprint));
                     if (data.fingerprint !== fingerprint) {
                         document.getElementById('contnet').innerHTML = data.html;
                         fingerprint = data.fingerprint;
