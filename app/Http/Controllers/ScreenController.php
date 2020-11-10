@@ -35,6 +35,16 @@ class ScreenController extends Controller
         return back()->with('success', __('screens.added'));
     }
 
+    public function delete(Request $request, Screen $screen)
+    {
+        if ($request->isMethod('DELETE')) {
+            $screen->delete();
+            return redirect()->route('screens.index');
+        }
+
+        return back();
+    }
+
     public function show(Request $request, Screen $screen)
     {
         $show = false;

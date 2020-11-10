@@ -33,6 +33,8 @@
 @endpush
 
 @section('content')
+@include('modals.delete_screen')
+
 <div class="uk-grid-collapse uk-child-width-expand uk-margin-medium-bottom" uk-grid>
     <div>
         <a href="{{ route('screens.index') }}" class="uk-button uk-button-text"><span uk-icon="chevron-left"></span> {{ __('screens.title') }}</a>

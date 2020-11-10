@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('remove-times/{screen}', 'ScreenController@removeTimes')->name('screens.update-remove');
 
         Route::post('add', 'ScreenController@add')->name('screens.add');
+        Route::delete('delete/{screen}', 'ScreenController@delete')->name('screens.delete');
     });
 
     Route::prefix('announcements')->group(function () {

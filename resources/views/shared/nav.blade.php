@@ -17,6 +17,14 @@
             </li>
             @endif
 
+            @if (Route::currentRouteName() == 'screens.show' && Auth::user()->is_admin)
+                @if ($screen->id > 40)
+                <li>
+                    <a href="#delete-screen" class="uk-button uk-button-default uk-text-danger" uk-icon="icon: trash; ratio: 2" uk-toggle><span class="uk-text-large my-font">&nbsp;&nbsp;حذف الشاشة&nbsp;&nbsp;</span></a>
+                </li>
+                @endif
+            @endif
+
         </ul>
         @include('modals.password')
     </div>
