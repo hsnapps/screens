@@ -4,7 +4,7 @@
         <li>
             @switch($item->type)
                 @case('photo')
-                    <img src="{{ url('content/'.$item->value) }}" alt="" uk-cover>
+                    <img src="{{ url('content/'.$item->value) }}" alt="" style="height: 100%; width: 100%">
                     @break
 
                 @case('video')
