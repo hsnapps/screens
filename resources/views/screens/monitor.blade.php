@@ -30,6 +30,7 @@
 </head>
 <body>
     <div id="contnet" class="uk-container uk-container-expand"></div>
+    <span id="seconds" style="font-size: 1.5em; position: absolute; right: 15px; bottom: 15px;">0</span>
 
     <script src="{{ url('js/uikit.min.js') }}"></script>
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
@@ -41,8 +42,16 @@
         var screen = '{{ $screen }}';
         var fingerprint = '';
         var url = "{{ route('api.monitor', ['screen' => $screen, 'fingerprint' => 'xxxx']) }}";
+        var seconds = 0;
 
-        var timer = setInterval(() => { loadContnet(); }, 10 * 1000);
+        var timer = setInterval(() => {
+            seconds++;
+            if(seconds > 10) {
+                loadContnet();
+                seconds = 1;
+            }
+            document.getElementById('seconds').innerText = seconds;
+        }, 1000);
 
         function loadContnet() {
             fetch(url.replace('xxxx', fingerprint))
@@ -51,6 +60,7 @@
                     if (data.fingerprint !== fingerprint) {
                         document.getElementById('contnet').innerHTML = data.html;
                         fingerprint = data.fingerprint;
+                        console.log('New Content: ' + data.fingerprint);
                     }
                 })
                 .catch(err => {

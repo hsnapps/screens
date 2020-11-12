@@ -109,6 +109,7 @@ class ScreenController extends Controller
                 $screen->content_end = null;
                 $screen->fingerprint = Str::random(80);
                 $screen->save();
+                $fingerprint = $screen->fingerprint;
             } else {
                 $announcements = $screen->announcements()->where([
                     ['is_active', '=', true],
@@ -129,8 +130,7 @@ class ScreenController extends Controller
         $lectures = Schedule::where([
             'hall' => $screen->hall,
             'day_index' => $day,
-        ])
-        ->get();
+        ])->get();
         $current = null;
         $now = now();
         foreach ($lectures as $lecture) {
@@ -146,6 +146,7 @@ class ScreenController extends Controller
                 $screen->save();
             }
 
+            $fingerprint = $screen->fingerprint;
             $html = view('monitor.lecture', ['lecture' => $current])->render();
 
             return json_encode([
@@ -168,6 +169,7 @@ class ScreenController extends Controller
                     ['is_active', '=', true],
                     ['type', '!=', 'text'],
                 ])->get();
+                $fingerprint = $screen->fingerprint;
                 $html = view('monitor.announcements', ['announcements' => $announcements])->render();
                 if ($announcements->count() > 0) {
                     return json_encode([
@@ -190,6 +192,7 @@ class ScreenController extends Controller
     {
         $screen->content_start = Carbon::parse($request->content_start);
         $screen->content_end = Carbon::parse($request->content_end);
+        $screen->fingerprint = Str::random(80);
         $screen->save();
 
         return back()->with('success', __('announcements.update'));
@@ -199,6 +202,7 @@ class ScreenController extends Controller
     {
         $screen->content_start = null;
         $screen->content_end = null;
+        $screen->fingerprint = Str::random(80);
         $screen->save();
 
         return back()->with('success', __('announcements.update'));

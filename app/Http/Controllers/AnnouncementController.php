@@ -106,6 +106,7 @@ class AnnouncementController extends Controller
     public function delete(Request $request)
     {
         $announcement = Announcement::find($request->delete_id);
+        $this->checkAnnouncementsForScreen($announcement);
         $announcement->delete();
 
         return back()->with('success', __('announcements.delete'));
@@ -118,6 +119,13 @@ class AnnouncementController extends Controller
         $announcement->save();
 
         // Check if all announcement are deactivated
+        $this->checkAnnouncementsForScreen($announcement);
+
+        return back()->with('success', __('announcements.update'));
+    }
+
+    private function checkAnnouncementsForScreen(Announcement $announcement)
+    {
         $screen = $announcement->screen;
         $announcements = $screen->announcements()->where('is_active', true)->get();
         if ($announcements->count() == 0) {
@@ -125,8 +133,6 @@ class AnnouncementController extends Controller
             $screen->content_end = null;
             $screen->save();
         }
-
-        return back()->with('success', __('announcements.update'));
     }
 
     public function getDialog(Request $request)
