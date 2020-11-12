@@ -45,10 +45,9 @@
         var timer = setInterval(() => { loadContnet(); }, 10 * 1000);
 
         function loadContnet() {
-            fetch(url + fingerprint)
+            fetch(url.replace('xxxx', fingerprint))
                 .then(res => res.json())
                 .then(data => {
-                    console.log(url.replace('xxxx', fingerprint));
                     if (data.fingerprint !== fingerprint) {
                         document.getElementById('contnet').innerHTML = data.html;
                         fingerprint = data.fingerprint;

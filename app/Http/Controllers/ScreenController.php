@@ -114,11 +114,13 @@ class ScreenController extends Controller
                     ['is_active', '=', true],
                     ['type', '=', 'text'],
                 ])->get();
-                $html = view('monitor.announcements', ['announcements' => $announcements])->render();
-                return json_encode([
-                    'html' => $html,
-                    'fingerprint' => $fingerprint,
-                ]);
+                if ($announcements->count() > 0) {
+                    $html = view('monitor.announcements', ['announcements' => $announcements])->render();
+                    return json_encode([
+                        'html' => $html,
+                        'fingerprint' => $fingerprint,
+                    ]);
+                }
             }
         }
 
@@ -167,14 +169,15 @@ class ScreenController extends Controller
                     ['type', '!=', 'text'],
                 ])->get();
                 $html = view('monitor.announcements', ['announcements' => $announcements])->render();
-                return json_encode([
-                    'html' => $html,
-                    'fingerprint' => $fingerprint,
-                ]);
+                if ($announcements->count() > 0) {
+                    return json_encode([
+                        'html' => $html,
+                        'fingerprint' => $fingerprint,
+                    ]);
+                }
             }
         }
 
-    RETURN_DEFAULT:
         // Return default
         $html = view('monitor.default')->render();
         return json_encode([

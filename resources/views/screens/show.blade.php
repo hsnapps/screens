@@ -109,7 +109,7 @@
                 }
             },
             rtl: true,
-            hours12: true,
+            // hours12: true,
             parentID: 'body',
             weekends: [
                 'الجمعة', 'السبت'
