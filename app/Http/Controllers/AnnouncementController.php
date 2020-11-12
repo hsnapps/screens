@@ -32,6 +32,7 @@ class AnnouncementController extends Controller
                 'type' => $request->type,
                 'value' => $request->text,
                 'is_active' => true,
+                'user_id' => $request->user()->id,
             ]);
         } else {
             $announcement = $this->addContent($request);
@@ -116,6 +117,15 @@ class AnnouncementController extends Controller
         $announcement->is_active = !$announcement->is_active;
         $announcement->save();
 
+        // Check if all announcement are deactivated
+        $screen = $announcement->screen;
+        $announcements = $screen->announcements()->where('is_active', true)->get();
+        if ($announcements->count() == 0) {
+            $screen->content_start = null;
+            $screen->content_end = null;
+            $screen->save();
+        }
+
         return back()->with('success', __('announcements.update'));
     }
 
@@ -162,6 +172,7 @@ class AnnouncementController extends Controller
                     'type' => 'text',
                     'value' => $request->text,
                     'is_active' => true,
+                    'user_id' => $request->user()->id,
                 ]);
             }
         });

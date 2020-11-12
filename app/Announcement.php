@@ -13,6 +13,7 @@ class Announcement extends Model
         'begin',
         'end',
         'is_active',
+        'user_id',
     ];
 
     protected $casts = [
@@ -29,5 +30,10 @@ class Announcement extends Model
     public function screen()
     {
         return $this->belongsTo(Screen::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
