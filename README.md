@@ -32,6 +32,9 @@ The app is based on Laravel framework in the backend and UIKit in the frontend, 
 ``git clone https://github.com/hsnapps/screens``
 - Get inside the directory *screens*
 ``cd screens``
+- Copy the environment file
+    - In Windwos: ``copy .env.example .env``
+    - In Linux ``cp .env.example .env``
 - Install dependencies
 ``composer install``
 
