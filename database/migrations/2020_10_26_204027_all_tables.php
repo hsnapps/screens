@@ -13,11 +13,13 @@ class AllTables extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+          Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
+            $table->boolean('is_admin')->default(0);
+            $table->string('section')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -66,11 +68,14 @@ class AllTables extends Migration
             $table->string('computer_id');
             $table->string('name');
             $table->string('photo')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
 
         Schema::create('screens', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable();
             $table->string('hall', 25)->nullable();
             $table->dateTime('content_start')->nullable();
             $table->dateTime('content_end')->nullable();
@@ -81,6 +86,7 @@ class AllTables extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('screen_id');
+            $table->foreignId('user_id')->nullable();
             $table->enum('type', [
                 'text',
                 'photo',
@@ -93,15 +99,6 @@ class AllTables extends Migration
             $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
-
-        Schema::create('timings', function (Blueprint $table) {
-            $table->id();
-            $table->smallInteger('lecture');
-            $table->boolean('morning')->comment('true: morning, false: evening');
-            $table->time('start')->nullable();
-            $table->time('end')->nullable();
-            $table->timestamps();
-        });
     }
 
     /**
@@ -111,7 +108,6 @@ class AllTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timings');
         Schema::dropIfExists('announcements');
         Schema::dropIfExists('screens');
         Schema::dropIfExists('instructors');

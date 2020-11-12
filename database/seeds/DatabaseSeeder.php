@@ -27,25 +27,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'مشرف النظام',
             'username' => 'admin',
             'password' => bcrypt('admin'),
+            'is_admin' => true,
+            'section' => null,
             'remember_token' => null,
         ]);
-
-        for ($h=0; $h < 7; $h++) {
-            Timing::create([
-                'lecture' => $h + 1,
-                'morning' => true,
-                'start' => sprintf('%02d:00', $h + 7),
-                'end' => sprintf('%02d:00', $h + 8),
-            ]);
-        }
-
-        for ($h=0; $h < 7; $h++) {
-            Timing::create([
-                'lecture' => $h + 1,
-                'morning' => false,
-                'start' => sprintf('%02d:00', $h + 14),
-                'end' => sprintf('%02d:00', $h + 15),
-            ]);
-        }
     }
 }
