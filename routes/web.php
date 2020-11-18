@@ -6,8 +6,9 @@ Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/screen/{id}', 'ScreenController@minitor')->name('monitor');
-Route::get('/s/{id}', 'ScreenController@minitor')->name('monitor2');
+Route::get('/s/{id?}', 'ScreenController@monitor')->name('monitor');
+Route::post('/set', 'ScreenController@monitor')->name('set-monitor');
+// Route::get('/s/{id}', 'ScreenController@minitor')->name('monitor2');
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('screens')->group(function () {

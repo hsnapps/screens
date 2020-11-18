@@ -80,15 +80,23 @@ class ScreenController extends Controller
         return back()->with('success', __('screens.updated'));
     }
 
-    public function minitor($id)
+    public function monitor(Request $request, $id = null)
     {
-        $screen = Screen::findOrFail($id);
-        $fingerprint = $screen->fingerprint;
+        if ($request->isMethod('POST')) {
+            return redirect()->route('monitor', ['id' => $request->id]);
+        }
 
-        return view('screens.monitor', [
-            'screen' => $id,
-            'fingerprint' => $fingerprint,
-        ]);
+        if (isset($id)) {
+            $screen = Screen::findOrFail($id);
+            $fingerprint = $screen->fingerprint;
+
+            return view('monitor.show', [
+                'screen' => $id,
+                'fingerprint' => $fingerprint,
+            ]);
+        }
+
+        return view('monitor.setup');
     }
 
     /**
