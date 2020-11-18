@@ -163,29 +163,18 @@ class ScreenController extends Controller
             ]);
         }
 
-
         // Check For Othrt Announcements
-        if(isset($screen->content_start) && isset($screen->content_end)) {
-            // If content_end greater than now remove timings and change fingerprint
-            if (now()->greaterThanOrEqualTo($screen->content_end)) {
-                $screen->content_start = null;
-                $screen->content_end = null;
-                $screen->fingerprint = Str::random(80);
-                $screen->save();
-            } else {
-                $announcements = $screen->announcements()->where([
-                    ['is_active', '=', true],
-                    ['type', '!=', 'text'],
-                ])->get();
-                $fingerprint = $screen->fingerprint;
-                $html = view('monitor.announcements', ['announcements' => $announcements])->render();
-                if ($announcements->count() > 0) {
-                    return json_encode([
-                        'html' => $html,
-                        'fingerprint' => $fingerprint,
-                    ]);
-                }
-            }
+        $announcements = $screen->announcements()->where([
+            ['is_active', '=', true],
+            ['type', '!=', 'text'],
+        ])->get();
+        $fingerprint = $screen->fingerprint;
+        $html = view('monitor.announcements', ['announcements' => $announcements])->render();
+        if ($announcements->count() > 0) {
+            return json_encode([
+                'html' => $html,
+                'fingerprint' => $fingerprint,
+            ]);
         }
 
         // Return default

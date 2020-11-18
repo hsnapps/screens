@@ -19,6 +19,7 @@
             filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b4d4bb",endColorstr="#b3e0d2",GradientType=1);
 
             font-family: hanimation !important;
+            height: 100%;
         }
         body, h1, h2, h3, div {
             font-family: hanimation !important;
@@ -30,7 +31,7 @@
 </head>
 <body>
     <div id="contnet" class="uk-container uk-container-expand"></div>
-    <span id="seconds" style="font-size: 1.5em; position: absolute; right: 15px; bottom: 15px;">10</span>
+    <span id="seconds" style="font-size: 1.5em; position: absolute; right: 15px; bottom: 15px;" hidden>10</span>
 
     <script src="{{ url('js/uikit.min.js') }}"></script>
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
@@ -58,7 +59,6 @@
                     if (data.fingerprint !== fingerprint) {
                         document.getElementById('contnet').innerHTML = data.html;
                         fingerprint = data.fingerprint;
-                        console.log('New Content: ' + data.fingerprint);
                     }
                 })
                 .catch(err => {
