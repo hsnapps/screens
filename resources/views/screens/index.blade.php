@@ -49,7 +49,7 @@
     </div>
 
     @php
-        $i += 6;
+        $i += 5;
     @endphp
 @endwhile
 
