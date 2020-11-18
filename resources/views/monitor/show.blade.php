@@ -30,7 +30,7 @@
 </head>
 <body>
     <div id="contnet" class="uk-container uk-container-expand"></div>
-    <span id="seconds" style="font-size: 1.5em; position: absolute; right: 15px; bottom: 15px;">0</span>
+    <span id="seconds" style="font-size: 1.5em; position: absolute; right: 15px; bottom: 15px;">10</span>
 
     <script src="{{ url('js/uikit.min.js') }}"></script>
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
@@ -42,13 +42,13 @@
         var screen = '{{ $screen }}';
         var fingerprint = '';
         var url = "{{ route('api.monitor', ['screen' => $screen, 'fingerprint' => 'xxxx']) }}";
-        var seconds = 0;
+        var seconds = 10;
 
         var timer = setInterval(() => {
-            seconds++;
-            if(seconds > 10) {
+            seconds--;
+            if(seconds === 0) {
                 loadContnet();
-                seconds = 1;
+                seconds = 10;
             }
             document.getElementById('seconds').innerText = seconds;
         }, 1000);
