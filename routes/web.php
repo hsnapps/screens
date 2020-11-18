@@ -11,6 +11,7 @@ Route::post('/set', 'ScreenController@monitor')->name('set-monitor');
 // Route::get('/s/{id}', 'ScreenController@minitor')->name('monitor2');
 
 Route::middleware(['auth'])->group(function () {
+
     Route::prefix('screens')->group(function () {
         Route::get('{screen?}', 'ScreenController@index')->name('screens.index');
         Route::get('show/{screen}', 'ScreenController@show')->name('screens.show');

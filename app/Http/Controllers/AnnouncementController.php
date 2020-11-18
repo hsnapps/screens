@@ -145,11 +145,17 @@ class AnnouncementController extends Controller
     {
         // dd($request->all());
 
-        $request->validate([
-            'content_start' => 'required|date:H:i Y-m-d',
-            'content_end' => 'required|date:H:i Y-m-d',
-            'text' => 'required|max:255',
-        ]);
+        if ($request->type == 'text') {
+            $request->validate([
+                'content_start' => 'required|date:H:i Y-m-d',
+                'content_end' => 'required|date:H:i Y-m-d',
+                'text' => 'required|max:255',
+            ]);
+        } else {
+            $request->validate([
+                'content' => $this->rules[$request->type],
+            ]);
+        }
 
         DB::transaction(function () use($request) {
             $user = $request->user();
@@ -173,13 +179,27 @@ class AnnouncementController extends Controller
                     'content_end' => $request->content_end,
                 ]);
 
-                Announcement::create([
-                    'screen_id' => $screen->id,
-                    'type' => 'text',
-                    'value' => $request->text,
-                    'is_active' => true,
-                    'user_id' => $request->user()->id,
-                ]);
+                if ($request->type == 'text') {
+                    Announcement::create([
+                        'screen_id' => $screen->id,
+                        'type' => 'text',
+                        'value' => 'text',
+                        'is_active' => true,
+                        'user_id' => $request->user()->id,
+                    ]);
+                } else {
+                    $extension = $request->content->extension();
+                    $file_name = Str::random(10).'.'.$extension;
+                    $request->content->storeAs('content', $file_name);
+
+                    Announcement::create([
+                        'screen_id' => $screen->id,
+                        'type' => $request->type,
+                        'value' => $file_name,
+                        'is_active' => true,
+                    ]);
+                }
+
             }
         });
 

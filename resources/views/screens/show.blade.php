@@ -49,7 +49,7 @@
     @endif
 
     @include('screens._hall')
-    @include('screens._times', ['buttons' => true])
+    {{-- @include('screens._times', ['buttons' => true]) --}}
 </div>
 
 <div class="uk-padding">
@@ -125,7 +125,7 @@
     });
 
     $('[name="type"]').change(function () {
-        $('#content-text').prop('hidden', $(this).val() !== 'text');
+        $('.content-text').prop('hidden', $(this).val() !== 'text');
         $('#content-file').prop('hidden', $(this).val() === 'text');
     });
 

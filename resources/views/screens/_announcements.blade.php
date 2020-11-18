@@ -2,7 +2,7 @@
     <div class="uk-card-body uk-padding-remove">
         <div class="uk-overflow-auto">
             <button class="uk-button uk-button-default add-content" type="button" uk-toggle="target: .add-content">{{ __('announcements.add') }}</button>
-            @include('screens._add')
+            @include('screens._add', ['screen_id' => $screen->id])
         </div>
     </div>
 </div>

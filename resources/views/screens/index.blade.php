@@ -10,6 +10,7 @@
 
 @section('content')
 
+@include('shared.validation')
 @include('modals.add_screen')
 @include('screens._global')
 
@@ -79,6 +80,15 @@
 
         $.datetimepicker.setLocale('ar');
        	$('.datetimepicker').datetimepicker(datetimepickerOptions);
+    });
+
+    $('[name="type"]').change(function () {
+        $('.content-text').prop('hidden', $(this).val() !== 'text');
+        $('#content-file').prop('hidden', $(this).val() === 'text');
+    });
+
+    $('[name="content"]').change(function() {
+        $("#file-name").text($(this).val());
     });
 
     UIkit.util.on('#global', 'hidden', function () {
