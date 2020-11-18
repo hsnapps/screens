@@ -34,8 +34,6 @@
 
     <script src="{{ url('js/uikit.min.js') }}"></script>
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
-    <script src="{{ url('js/jquery-3.5.1.min.js') }}"></script>
-    <script src="{{ url('js/moment-with-locales.min.js') }}"></script>
     <script>
         setTimeout(() => {loadContnet()}, 50);
 
