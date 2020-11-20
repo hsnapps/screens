@@ -14,6 +14,7 @@
                 <th>#</th>
                 <th>{{ __('announcements.type') }}</th>
                 <th class="uk-text-truncate">{{ __('announcements.value') }}</th>
+                <th class="uk-text-truncate">{{ __('announcements.to') }}</th>
                 <th class="uk-table-shrink">{{ __('announcements.edit') }}</th>
                 <th class="uk-table-shrink">{{ __('announcements.is_active') }}</th>
                 <th class="uk-table-shrink">{{ __('announcements.view') }}</th>
@@ -26,19 +27,27 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ __('announcements.types')[$announcement->type] }}</td>
                 <td>{{ $announcement->type == 'text' ? $announcement->value : '' }}</td>
+                <td>{{ $announcement->type == 'text' ? $announcement->content_end->format(__('announcements.format')) : '' }}</td>
                 <td>
-                    <button class="uk-button uk-button-text" data-edit="{{ $announcement->id }}" data-text="{{ $announcement->value }}" data-type="{{ $announcement->type }}" type="button"><span uk-icon="pencil"></span></button>
+                    <button class="uk-button uk-button-text" uk-toggle="target: #edit-{{ $announcement->id }}" type="button"><span uk-icon="pencil"></span></button>
+                    @include('modals.edit_announcement')
                 </td>
                 <td>
                     <form action="{{ route('announcements.change-active') }}" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $announcement->id }}">
+                        @if ($announcement->type == 'text' && !$announcement->is_active)
+                        <button class="uk-button uk-button-text" type="button" uk-toggle="target: #activate-text"><span uk-icon="{{ $announcement->is_active ? 'check' : 'close' }}"></span></button>
+                        @else
                         <button class="uk-button uk-button-text"><span uk-icon="{{ $announcement->is_active ? 'check' : 'close' }}"></span></button>
+                        @endif
                     </form>
+
+                    @include('modals.activate_text')
                 </td>
                 <td>
                     <button class="uk-button uk-button-text" uk-toggle="target: #modal-{{ $announcement->id }}"><span uk-icon="icon: search"></span></button>
-                    @include('screens._announcement_modal')
+                    @include('modals.announcement')
                 </td>
                 <td>
                     <button class="uk-button uk-button-text" data-delete="{{ $announcement->id }}" data-index="{{ $loop->index + 1 }}" type="button"><span uk-icon="trash"></span></button>

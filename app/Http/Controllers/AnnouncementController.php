@@ -7,7 +7,6 @@ use App\Screen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
@@ -33,17 +32,20 @@ class AnnouncementController extends Controller
                 'value' => $request->text,
                 'is_active' => true,
                 'user_id' => $request->user()->id,
+                'content_start' => $request->content_start,
+                'content_end' => $request->content_end,
+            ]);
+            $announcement->screen()->update([
+                'fingerprint' => Str::random(80),
             ]);
         } else {
             $announcement = $this->addContent($request);
+            $announcement->screen()->update([
+                'fingerprint' => Str::random(80),
+            ]);
         }
 
-        $announcement->screen()->update([
-            'fingerprint' => Str::random(80),
-        ]);
-
         return back()->with('success', __('announcements.create'));
-
     }
 
     private function addContent(Request $request, Announcement $announcement = null) : Announcement
@@ -61,12 +63,11 @@ class AnnouncementController extends Controller
         if (isset($announcement)) {
             Storage::disk('content')->delete($announcement->value);
             $announcement->update([
-                // 'screen_id' => $request->screen_id,
                 'type' => $request->type,
                 'value' => $file_name,
-                // 'is_active' => true,
-                // 'begin' => $request->begin,
-                // 'end' => $request->end,
+                'content_start' => null,
+                'content_end' => null,
+                'user_id' => $request->user()->id,
             ]);
         } else {
             $announcement = Announcement::create([
@@ -74,8 +75,9 @@ class AnnouncementController extends Controller
                 'type' => $request->type,
                 'value' => $file_name,
                 'is_active' => true,
-                // 'begin' => $request->begin,
-                // 'end' => $request->end,
+                'content_start' => null,
+                'content_end' => null,
+                'user_id' => $request->user()->id,
             ]);
         }
 
@@ -87,26 +89,32 @@ class AnnouncementController extends Controller
     public function update(Request $request)
     {
         $announcement = Announcement::find($request->id);
-        $announcement->begin = Carbon::parse($request->begin, 'Asia/Riyadh');
-        $announcement->end = Carbon::parse($request->end, 'Asia/Riyadh');
 
         if ($request->type == 'text') {
-            $announcement->value = $request->text;
-            $announcement->save();
+            $announcement->update([
+                'value' => $request->text,
+                'content_start' => $request->content_start,
+                'content_end' => $request->content_end,
+            ]);
+            if ($announcement->is_active) {
+                $announcement->screen()->update([
+                    'fingerprint' => Str::random(80),
+                ]);
+            }
         } else {
             $this->addContent($request, $announcement);
+            $announcement->screen()->update([
+                'fingerprint' => Str::random(80),
+            ]);
         }
 
-        $announcement->screen()->update([
-            'fingerprint' => Str::random(80),
-        ]) ;
         return back()->with('success', __('announcements.update'));
     }
 
     public function delete(Request $request)
     {
         $announcement = Announcement::find($request->delete_id);
-        $this->checkAnnouncementsForScreen($announcement);
+        $announcement->screen()->update(['fingerprint' => Str::random(80)]);
         $announcement->delete();
 
         return back()->with('success', __('announcements.delete'));
@@ -119,20 +127,9 @@ class AnnouncementController extends Controller
         $announcement->save();
 
         // Check if all announcement are deactivated
-        $this->checkAnnouncementsForScreen($announcement);
+        $announcement->screen()->update(['fingerprint' => Str::random(80)]);
 
         return back()->with('success', __('announcements.update'));
-    }
-
-    private function checkAnnouncementsForScreen(Announcement $announcement)
-    {
-        $screen = $announcement->screen;
-        $announcements = $screen->announcements()->where('is_active', true)->get();
-        if ($announcements->count() == 0) {
-            $screen->content_start = null;
-            $screen->content_end = null;
-            $screen->save();
-        }
     }
 
     public function getDialog(Request $request)
@@ -145,6 +142,7 @@ class AnnouncementController extends Controller
     {
         // dd($request->all());
 
+        // Validation
         if ($request->type == 'text') {
             $request->validate([
                 'content_start' => 'required|date:H:i Y-m-d',
@@ -167,43 +165,42 @@ class AnnouncementController extends Controller
             }
 
             foreach ($screens as $screen) {
-                $announcements = $screen->announcements;
-
-                foreach ($announcements as $announcement) {
-                    $announcement->update(['is_active' => false]);
+                if ($request->type == 'text') {
+                    $value = $request->text;
+                } else {
+                    $extension = $request->content->extension();
+                    $value = Str::random(10).'.'.$extension;
+                    $request->content->storeAs('content', $value);
                 }
 
-                $screen->update([
-                    'fingerprint' => Str::random(80),
+                $screen->announcements()->create([
+                    'type' => $request->type,
+                    'value' => $value,
+                    'is_active' => true,
+                    'user_id' => $user->id,
                     'content_start' => $request->content_start,
                     'content_end' => $request->content_end,
                 ]);
-
-                if ($request->type == 'text') {
-                    Announcement::create([
-                        'screen_id' => $screen->id,
-                        'type' => 'text',
-                        'value' => 'text',
-                        'is_active' => true,
-                        'user_id' => $request->user()->id,
-                    ]);
-                } else {
-                    $extension = $request->content->extension();
-                    $file_name = Str::random(10).'.'.$extension;
-                    $request->content->storeAs('content', $file_name);
-
-                    Announcement::create([
-                        'screen_id' => $screen->id,
-                        'type' => $request->type,
-                        'value' => $file_name,
-                        'is_active' => true,
-                    ]);
-                }
-
             }
         });
 
-
         return back()->with('success', __('announcements.create'));
+    }
+
+    public function activateText(Request $request)
+    {
+        $announcement = Announcement::find($request->id);
+        $announcement->update([
+            'is_active' => true,
+            'content_start' => $request->content_start,
+            'content_end' => $request->content_end,
+        ]);
+
+        $announcement->screen()->update([
+            'fingerprint' => Str::random(80),
+
+        ]);
+
+        return back()->with('success', __('announcements.update'));
     }
 }

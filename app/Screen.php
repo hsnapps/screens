@@ -8,15 +8,8 @@ class Screen extends Model
 {
     protected $fillable = [
         'id',
-        'content_start',
-        'content_end',
         'fingerprint',
         'user_id',
-    ];
-
-    protected $dates = [
-        'content_start',
-        'content_end',
     ];
 
     public function announcements()

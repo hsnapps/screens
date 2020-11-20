@@ -10,21 +10,19 @@ class Announcement extends Model
         'screen_id',
         'type',
         'value',
-        'begin',
-        'end',
+        'content_start',
+        'content_end',
         'is_active',
         'user_id',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'begin' => 'datetime:Y-m-d',
-        'end' => 'datetime:Y-m-d',
     ];
 
     protected $dates = [
-        'begin',
-        'end',
+        'content_start',
+        'content_end',
     ];
 
     public function screen()

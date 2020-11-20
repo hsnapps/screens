@@ -28,6 +28,10 @@
         margin-left: -20px;
         text-align: center;
     }
+
+    .my-color {
+        color: #ffffff !important
+    }
 </style>
 <link rel="stylesheet" href="{{ url('css/jquery.datetimepicker.min.css') }}" />
 @endpush
@@ -84,11 +88,6 @@
     <input type="hidden" name="update_type">
     <input type="hidden" name="update_text">
 </form>
-<form id="remove-form" action="{{ route('screens.update-remove', ['screen' => $screen]) }}" method="post">
-    @method('DELETE')
-    @csrf
-    <input type="hidden" name="remove_id">
-</form>
 @endsection
 
 @push('scripts')
@@ -125,8 +124,8 @@
     });
 
     $('[name="type"]').change(function () {
-        $('.content-text').prop('hidden', $(this).val() !== 'text');
-        $('#content-file').prop('hidden', $(this).val() === 'text');
+        $('.toggle-text').toggle($(this).val() === 'text');
+        $('.toggle-else').toggle($(this).val() !== 'text');
     });
 
     // UIkit.switcher('#screen-tab').show(1);

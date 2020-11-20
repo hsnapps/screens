@@ -33,7 +33,7 @@
         <form class="uk-text-center uk-margin-xlarge-top" action="{{ route('set-monitor') }}" method="post">
             @csrf
             <div class="uk-margin">
-                <input class="uk-text-center uk-input uk-form-width-medium uk-form-large uk-text-large" type="text" placeholder="رقم الشاشة" name="id" autofocus>
+                <input class="uk-text-center uk-input uk-form-width-medium uk-form-large uk-text-large" type="number" placeholder="رقم الشاشة" name="id" autofocus>
                 <p class="uk-text-mute">اكتب رقم الشاشة ثم اضغط موافق</p>
             </div>
 

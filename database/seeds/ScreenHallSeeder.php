@@ -13,8 +13,10 @@ class ScreenHallSeeder extends Seeder
     public function run()
     {
         $halls = DB::table('schedules')->distinct()->select('hall')->get();
-        foreach(App\Screen::all() as $screen) {
-            $screen->hall = $halls[$screen->id]->hall; $screen->save();
-        }
+		if($halls->count() > 0) {
+			foreach(App\Screen::all() as $screen) {
+				$screen->hall = $halls[$screen->id]->hall; $screen->save();
+			}	
+		}        
     }
 }

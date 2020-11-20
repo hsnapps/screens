@@ -6,8 +6,8 @@ Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/s/{id?}', 'ScreenController@monitor')->name('monitor');
-Route::post('/set', 'ScreenController@monitor')->name('set-monitor');
+Route::get('/s/{id?}', 'MonitorController@show')->name('monitor');
+Route::post('/set', 'MonitorController@show')->name('set-monitor');
 // Route::get('/s/{id}', 'ScreenController@minitor')->name('monitor2');
 
 Route::middleware(['auth'])->group(function () {
@@ -16,8 +16,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{screen?}', 'ScreenController@index')->name('screens.index');
         Route::get('show/{screen}', 'ScreenController@show')->name('screens.show');
         Route::post('update/{screen}', 'ScreenController@update')->name('screens.update');
-        Route::post('update-times/{screen}', 'ScreenController@updateTimes')->name('screens.update-times');
-        Route::delete('remove-times/{screen}', 'ScreenController@removeTimes')->name('screens.update-remove');
 
         Route::post('add', 'ScreenController@add')->name('screens.add');
         Route::delete('delete/{screen}', 'ScreenController@delete')->name('screens.delete');
@@ -25,11 +23,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('announcements')->group(function () {
         Route::post('create', 'AnnouncementController@create')->name('announcements.create');
-        Route::put('update', 'AnnouncementController@update')->name('announcements.update');
+        Route::post('update', 'AnnouncementController@update')->name('announcements.update');
         Route::post('change-active', 'AnnouncementController@changeActive')->name('announcements.change-active');
         Route::post('add-global', 'AnnouncementController@addGlobal')->name('announcements.global');
         Route::delete('delete', 'AnnouncementController@delete')->name('announcements.delete');
         Route::get('dialog', 'AnnouncementController@getDialog')->name('announcements.dialog');
+        Route::post('activate-text', 'AnnouncementController@activateText')->name('announcements.activate-text');
     });
 
     Route::prefix('schedules')->group(function () {

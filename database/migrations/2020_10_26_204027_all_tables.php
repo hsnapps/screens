@@ -13,7 +13,7 @@ class AllTables extends Migration
      */
     public function up()
     {
-          Schema::create('users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
@@ -77,8 +77,6 @@ class AllTables extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable();
             $table->string('hall', 25)->nullable();
-            $table->dateTime('content_start')->nullable();
-            $table->dateTime('content_end')->nullable();
             $table->char('fingerprint', 80)->nullable();
             $table->timestamps();
         });
@@ -94,8 +92,8 @@ class AllTables extends Migration
                 'pdf',
             ]);
             $table->string('value');
-            $table->timestamp('begin')->nullable();
-            $table->timestamp('end')->nullable();
+            $table->dateTime('content_start')->nullable();
+            $table->dateTime('content_end')->nullable();
             $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
