@@ -35,6 +35,11 @@ class MonitorController extends Controller
     public function getMonitorContnet(Request $request)
     {
         $screen = Screen::findOrFail($request->screen);
+        $day = today()->dayOfWeek;
+        $lectures = Schedule::where([
+            'hall' => $screen->hall,
+            'day_index' => $day
+        ])->get();
 
         // Text Announcements
         $textAnnouncements = $screen->announcements()->where([
@@ -58,11 +63,6 @@ class MonitorController extends Controller
         }
 
         // Lectures
-        $day = today()->dayOfWeek;
-        $lectures = Schedule::where([
-            'hall' => $screen->hall,
-            'day_index' => $day,
-        ])->get();
         $current = null;
         $now = now();
         foreach ($lectures as $lecture) {
@@ -100,7 +100,7 @@ class MonitorController extends Controller
         }
 
         // Return default
-        $html = view('monitor.default')->render();
+        $html = view('monitor.default', ['lectures' => $lectures->sortBy('start')])->render();
         return json_encode([
             'html' => $html,
             'fingerprint' => $screen->fingerprint,

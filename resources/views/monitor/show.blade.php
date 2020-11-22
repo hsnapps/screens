@@ -27,14 +27,41 @@
         .arial {
             font-family: Arial, Helvetica, sans-serif !important;
         }
+
+        #reset {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+
+        #screen-id {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        #vision {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        #logo {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+        }
     </style>
 </head>
 <body>
+    @include('monitor.corners')
+
     <div id="contnet" class="uk-container uk-container-expand"></div>
     <span id="seconds" style="font-size: 1.5em; position: absolute; right: 15px; bottom: 15px;" hidden>10</span>
 
     <script src="{{ url('js/uikit.min.js') }}"></script>
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
+    <script src="{{ url('js/moment-with-locales.min.js') }}"></script>
     <script>
         setTimeout(() => {loadContnet()}, 50);
 
@@ -63,10 +90,23 @@
                 })
                 .catch(err => {
                     clearInterval(timer);
-                    var html = `<div class="uk-alert-danger uk-text-center uk-margin-xlarge-top uk-text-large" uk-alert><p>حصل خطأ غير معروف. الرجاء إصلاح الخطأ ثم تحديث الصفحة</p><p>${err}</p></div>`;
+
+                    var html = `
+                    <div class="uk-alert-danger uk-text-center uk-margin-xlarge-top uk-text-large" uk-alert>
+                        <p>حصل خطأ غير معروف. الرجاء إصلاح الخطأ ثم تحديث الصفحة</p>
+                        <p>${err}</p>
+                        <div uk-countdown="date: -time-">
+                            <span class="uk-countdown-number uk-countdown-seconds"></span>
+                            <span class="uk-countdown-separator">:</span>
+                            <span class="uk-countdown-number uk-countdown-minutes"></span>
+                        </div>
+                    </div>
+                    `.replace('-time-', moment().add(2, 'minutes').format());
                     document.getElementById('contnet').innerHTML = html;
                     console.error(err);
                     console.log(url + fingerprint);
+
+                    setTimeout(() => { document.location.reload(); }, 1000 * 60 * 2);
                 });
         }
     </script>

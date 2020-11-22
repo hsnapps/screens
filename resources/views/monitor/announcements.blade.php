@@ -12,7 +12,7 @@
                     @break
 
                 @case('pdf')
-                    <embed src="{{ url('content/'.$item->value) }}" type="application/pdf" width="100%" height="600px" uk-cover />
+                    <iframe src="{{ url('content/'.$item->value) }}" frameborder="0" width="100%" height="600px" uk-cover></iframe>
                     @break
 
                 @default
