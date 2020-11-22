@@ -35,11 +35,6 @@ class MonitorController extends Controller
     public function getMonitorContnet(Request $request)
     {
         $screen = Screen::findOrFail($request->screen);
-        if ($request->fingerprint == $screen->fingerprint) {
-            return json_encode([
-                'fingerprint' => $screen->fingerprint,
-            ]);
-        }
 
         // Text Announcements
         $textAnnouncements = $screen->announcements()->where([
