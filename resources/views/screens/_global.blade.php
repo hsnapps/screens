@@ -9,7 +9,7 @@
     </div>
 
     <div class="uk-padding uk-card-body">
-        @include('screens._form', ['screen_id' => 0])
+        @include('screens._form', ['screen_id' => 0, 'color' => '#314039'])
     </div>
 
     <div class="uk-card-footer uk-text-left">

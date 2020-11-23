@@ -100,10 +100,18 @@ class MonitorController extends Controller
         }
 
         // Return default
-        $html = view('monitor.default', ['lectures' => $lectures->sortBy('start')])->render();
-        return json_encode([
-            'html' => $html,
-            'fingerprint' => $screen->fingerprint,
-        ]);
+        if ($lectures->count() > 0) {
+            $html = view('monitor.default', ['lectures' => $lectures->sortBy('start')])->render();
+            return json_encode([
+                'html' => $html,
+                'fingerprint' => $screen->fingerprint,
+            ]);
+        }
+
+        $html = view('monitor.logo')->render();
+            return json_encode([
+                'html' => $html,
+                'fingerprint' => $screen->fingerprint,
+            ]);
     }
 }

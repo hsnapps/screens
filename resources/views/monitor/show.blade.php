@@ -4,54 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title></title>
+    <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" type="text/css" href="{{ url('css/uikit-rtl.min.css') }}">
-    <style>
-        @font-face {
-            font-family: hanimation;
-            src: url("{{ url('fonts/hanimation-regular.ttf') }}");
-        }
-        html {
-            background: rgb(180,212,187);
-            background: -moz-linear-gradient(90deg, rgba(180,212,187,1) 0%, rgba(179,224,210,1) 35%);
-            background: -webkit-linear-gradient(90deg, rgba(180,212,187,1) 0%, rgba(179,224,210,1) 35%);
-            background: linear-gradient(90deg, rgba(180,212,187,1) 0%, rgba(179,224,210,1) 35%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b4d4bb",endColorstr="#b3e0d2",GradientType=1);
-
-            font-family: hanimation !important;
-            height: 100%;
-        }
-        body, h1, h2, h3, div {
-            font-family: hanimation !important;
-        }
-        .arial {
-            font-family: Arial, Helvetica, sans-serif !important;
-        }
-
-        #reset {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-        }
-
-        #screen-id {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-        }
-
-        #vision {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-        }
-
-        #logo {
-            position: absolute;
-            left: 10px;
-            bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url('css/monitor.css') }}">
 </head>
 <body>
     @include('monitor.corners')
@@ -63,6 +18,8 @@
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
     <script src="{{ url('js/moment-with-locales.min.js') }}"></script>
     <script>
+        setTimeout(() => { document.location.reload(); }, 1000 * 60 * 5);
+
         setTimeout(() => {loadContnet()}, 50);
 
         var screen = '{{ $screen }}';
@@ -77,7 +34,7 @@
                 seconds = 10;
             }
             document.getElementById('seconds').innerText = seconds;
-        }, 1000);
+        }, 5000);
 
         function loadContnet() {
             fetch(url.replace('xxxx', fingerprint))
@@ -95,10 +52,10 @@
                     <div class="uk-alert-danger uk-text-center uk-margin-xlarge-top uk-text-large" uk-alert>
                         <p>حصل خطأ غير معروف. الرجاء إصلاح الخطأ ثم تحديث الصفحة</p>
                         <p>${err}</p>
-                        <div uk-countdown="date: -time-">
-                            <span class="uk-countdown-number uk-countdown-seconds"></span>
-                            <span class="uk-countdown-separator">:</span>
-                            <span class="uk-countdown-number uk-countdown-minutes"></span>
+                        <div small-countdown="date: -time-">
+                            <span class="small-countdown-number small-countdown-seconds"></span>
+                            <span class="small-countdown-separator">:</span>
+                            <span class="small-countdown-number small-countdown-minutes"></span>
                         </div>
                     </div>
                     `.replace('-time-', moment().add(2, 'minutes').format());
