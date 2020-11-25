@@ -28,6 +28,8 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
+        abort_if(!$request->user()->is_admin, 403);
+
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
@@ -41,6 +43,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        abort_if(!$request->user()->is_admin, 403);
+
         if ($request->isMethod('PATCH')) {
             $user->password = bcrypt('1234');
             $user->save();
@@ -93,6 +97,8 @@ class UserController extends Controller
 
     public function assignScreen(Request $request, User $user)
     {
+        abort_if(!$request->user()->is_admin, 403);
+
         $this->removeScreens($user);
 
         foreach ($request->screen as $key => $value) {
@@ -110,5 +116,16 @@ class UserController extends Controller
             $screen->user_id = null;
             $screen->save();
         }
+    }
+
+    public function viewLog(Request $request, User $user)
+    {
+        abort_if(!$request->user()->is_admin, 403);
+
+        return view('users.logs', [
+            'logs' => $user->logs,
+            'name' => $user->name,
+            'title' => __('app.log'),
+        ]);
     }
 }

@@ -60,6 +60,11 @@ class ScheduleController extends Controller
                     Storage::disk('excel')->delete($f);
                 }
 
+                $request->user()->logs()->create([
+                    'screen_id' => null,
+                    'message' => __('logs.schedules'),
+                ]);
+
                 DB::commit();
 
                 return back()->with('success', __('schedules.excel-uploaded'));

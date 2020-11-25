@@ -2,6 +2,18 @@
 
 namespace App\Providers;
 
+use App\Observers\{
+    AnnouncementObserver,
+    InstructorObserver,
+    ScreenObserver,
+    UserObserver
+};
+use App\{
+    Announcement,
+    Instructor,
+    Screen,
+    User
+};
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -24,6 +36,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Announcement::observe(AnnouncementObserver::class);
+        Instructor::observe(InstructorObserver::class);
+        Screen::observe(ScreenObserver::class);
+        User::observe(UserObserver::class);
     }
 }
