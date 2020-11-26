@@ -6,17 +6,6 @@
     <div>
         <span id="screen-number" class="uk-label uk-label-success uk-text-large">{{ $screen }}</span>
     </div>
-    <div>
-        <div class="uk-grid-collapse uk-child-width-auto uk-margin uk-margin-small-top uk-text-muted" uk-grid uk-countdown="date: {{ now()->addMinutes(5)->toDateTimeString() }}">
-            <div>
-                <div class="uk-countdown-number uk-countdown-seconds" style="font-size: 1.50rem !important"></div>
-            </div>
-            <div class="uk-countdown-separator" style="font-size: 1.00rem !important">:</div>
-            <div>
-                <div class="uk-countdown-number uk-countdown-minutes" style="font-size: 1.50rem !important"></div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div id="vision">
