@@ -18,7 +18,7 @@
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
     <script src="{{ url('js/moment-with-locales.min.js') }}"></script>
     <script>
-        setTimeout(() => { document.location.reload(); }, 1000 * 60 * 5);
+        setTimeout(() => { document.location.reload(); }, 300000);  // 5 minuets
 
         setTimeout(() => {loadContnet()}, 50);
 

@@ -32,13 +32,13 @@
     <div class="uk-navbar-left">
         <ul class="uk-navbar-nav">
             <li>
-                <h2 class="my-font uk-margin-small-left" style="color: #ffffff; !important">{{ Auth::user()->name }}</h2>
+                <h2 class="my-font uk-margin-small-left" style="color: #ffffff; !important; background: none !important;">{{ Auth::user()->name }}</h2>
             </li>
             <li>
-                <h2 class="my-font uk-margin-small-left uk-padding-remove" style="color: #ffffff; !important">{{ isset($title) ? '/' : '' }}</h2>
+                <h2 class="my-font uk-margin-small-left uk-padding-remove" style="color: #ffffff; !important; background: none !important;">{{ isset($title) ? '/' : '' }}</h2>
             </li>
             <li>
-                <h2 class="my-font uk-margin-large-left" style="color: #ffffff; !important">{{ isset($title) ? $title : '' }}</h2>
+                <h2 class="my-font uk-margin-large-left" style="color: #ffffff; !important; background: none !important;">{{ isset($title) ? $title : '' }}</h2>
             </li>
         </ul>
     </div>
