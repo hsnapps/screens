@@ -8,7 +8,6 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/s/{id?}', 'MonitorController@show')->name('monitor');
 Route::post('/set', 'MonitorController@show')->name('set-monitor');
-// Route::get('/s/{id}', 'ScreenController@minitor')->name('monitor2');
 
 Route::middleware(['auth'])->group(function () {
 
