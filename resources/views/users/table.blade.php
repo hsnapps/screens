@@ -24,6 +24,7 @@
             <td>{{ $user->updated_at->format('H:i Y-m-d') }}</td>
             <td>
                 <ul class="uk-iconnav">
+                    <li uk-tooltip="{{ __('app.log') }}"><a href="{{ route('users.log', ['user' => $user]) }}" uk-toggle uk-icon="icon: list; ratio: 1.15"></a></li>
                     <li uk-tooltip="{{ __('users.edit') }}"><a href="#edit-{{ $user->id }}" uk-toggle uk-icon="icon: file-edit; ratio: 1.15"></a></li>
                     @if (!$user->is_admin)
                     <li uk-tooltip="{{ __('users.screens') }}"><a href="#screens-{{ $user->id }}" uk-toggle uk-icon="icon: thumbnails; ratio: 1.15"></a></li>

@@ -91,8 +91,21 @@
 </form>
 
 <div class="uk-margin-top">
-    <h1 style="color: #ffffff" class="uk-heading-divider">{{ __('instructors.lectures') }}</h1>
-    @include('schedules._lectures', ['rows' => $instructor->lectures()->orderBy('day_index')->orderBy('start')->get()])
+    <ul id="screen-tab" class="uk-subnav uk-subnav-pill" uk-switcher>
+        <li><a href="#">{{ __('instructors.lectures') }}</a></li>
+        <li><a href="#">{{ __('app.log') }}</a></li>
+    </ul>
+
+    <ul id="switcher-content" class="uk-switcher uk-margin">
+        <li>
+            @include('schedules._lectures', ['rows' => $instructor->lectures()->orderBy('day_index')->orderBy('start')->get()])
+        </li>
+        <li>
+            @include('shared._log', ['logs' => $instructor->logs])
+        </li>
+    </ul>
+
+
 </div>
 
 <form id="instructors.remove" method="POST" action="{{ route('instructors.remove') }}">

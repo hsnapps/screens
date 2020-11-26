@@ -61,6 +61,7 @@
         <li><a href="#">{{ __('screens.lectures') }}</a></li>
         <li><a href="#">{{ __('screens.announcements') }}</a></li>
         <li><a href="#">{{ __('screens.snapshot') }}</a></li>
+        <li><a href="#">{{ __('app.log') }}</a></li>
     </ul>
 
     <ul id="switcher-content" class="uk-switcher uk-margin">
@@ -70,8 +71,11 @@
         <li id="_announcements">
             @include('screens._announcements')
         </li>
-        <li id="_snapshot">
+        <li id="_log">
             @include('screens._snapshot')
+        </li>
+        <li id="_snapshot">
+            @include('shared._log', ['logs' => $screen->logs])
         </li>
     </ul>
 </div>

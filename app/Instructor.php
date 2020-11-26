@@ -18,4 +18,9 @@ class Instructor extends Model
     {
         return $this->hasMany(Schedule::class, 'instructor_id', 'computer_id');
     }
+
+    public function logs()
+    {
+        return $this->hasMany(Log::class, '');
+    }
 }

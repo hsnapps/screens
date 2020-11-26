@@ -56,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('', 'UserController@store')->name('users.store');
         Route::post('password', 'UserController@changePassword')->name('users.password');
         Route::post('screens/{user}', 'UserController@assignScreen')->name('users.screens');
+        Route::get('log/{user}', 'UserController@viewLog')->name('users.log');
     });
 
     // Route::resource('users', 'UserController')->only(['index', 'update', 'destroy', 'store']);
