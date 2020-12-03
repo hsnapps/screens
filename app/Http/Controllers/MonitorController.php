@@ -112,6 +112,7 @@ class MonitorController extends Controller
             return json_encode([
                 'html' => $html,
                 'fingerprint' => $screen->fingerprint,
+                'logo' => true,
             ]);
     }
 }
