@@ -101,7 +101,7 @@
 <script>
     var timer = null;
 
-    // UIkit.switcher('#screen-tab').show(1);
+    UIkit.switcher('#screen-tab').show(2);
 
     $('#snapshot').attr('src', "{{ route('monitor', ['id' => $screen]) }}");
 
@@ -162,5 +162,9 @@
         // alert(html);
         $(html).appendTo('body').submit();
     });
+
+    function openSnapshot(url) {
+        window.open(url, '_blank');
+    }
 </script>
 @endpush
