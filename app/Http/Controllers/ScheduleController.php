@@ -13,16 +13,20 @@ use Maatwebsite\Excel\Validators\ValidationException;
 
 class ScheduleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        abort_if(!$request->user()->is_admin, 403);
+
         return view('schedules.index', [
             'rows' => Schedule::paginate(),
             'title' => 'الجداول',
         ]);
     }
 
-    public function download()
+    public function download(Request $request)
     {
+        abort_if(!$request->user()->is_admin, 403);
+
         $name = 'الجدول التدريبي الشامل.xlsx';
         $pathToFile = storage_path('files/excel.xlsx');
         return response()->download($pathToFile, $name);
@@ -30,6 +34,8 @@ class ScheduleController extends Controller
 
     public function upload(Request $request)
     {
+        abort_if(!$request->user()->is_admin, 403);
+
         $request->validate([
             'excel' => 'required|mimes:xlsx|max:2048',
         ]);
@@ -61,7 +67,7 @@ class ScheduleController extends Controller
                 }
 
                 $request->user()->logs()->create([
-                    'screen_id' => null,
+                    'screen_id' => 0,
                     'message' => __('logs.schedules'),
                 ]);
 

@@ -203,4 +203,25 @@ class AnnouncementController extends Controller
 
         return back()->with('success', __('announcements.update'));
     }
+
+    public function doMassCommand(Request $request)
+    {
+        // dd($request->all());
+
+        switch ($request->command) {
+            case 'deactivate':
+                Announcement::whereIn('id', $request->announcement)->update(['is_active' => false]);
+                break;
+
+            case 'activate':
+                Announcement::whereIn('id', $request->announcement)->update(['is_active' => true]);
+                break;
+
+            case 'delete':
+                Announcement::whereIn('id', $request->announcement)->delete();
+                break;
+        }
+
+        return back()->with('success', __('announcements.mass_cmd_msg'));
+    }
 }

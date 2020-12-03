@@ -1,7 +1,7 @@
 <div class="uk-card uk-card-header">
     <div class="uk-card-body uk-padding-remove">
         <div class="uk-overflow-auto">
-            <button class="uk-button uk-button-default add-content" type="button" uk-toggle="target: .add-content">{{ __('announcements.add') }}</button>
+            <button class="uk-button uk-button-default add-content uk-inline" type="button" uk-toggle="target: .add-content">{{ __('announcements.add') }}</button>
             @include('screens._add', ['screen_id' => $screen->id])
         </div>
     </div>
@@ -11,7 +11,8 @@
     <table class="uk-table uk-table-hover ">
         <thead>
             <tr>
-                <th>#</th>
+                <th class="uk-table-shrink"><label><input class="uk-checkbox" type="checkbox" id="all_mass_cmd"></label></th>
+                <th class="uk-table-shrink">#</th>
                 <th>{{ __('announcements.type') }}</th>
                 <th class="uk-text-truncate">{{ __('announcements.value') }}</th>
                 <th class="uk-text-truncate">{{ __('announcements.to') }}</th>
@@ -24,6 +25,7 @@
         <tbody>
             @foreach ($screen->announcements as $announcement)
             <tr>
+                <td><label><input class="uk-checkbox" type="checkbox" name="mass_cmd" value="{{ $announcement->id }}"></label></td>
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ __('announcements.types')[$announcement->type] }}</td>
                 <td>{{ $announcement->type == 'text' ? $announcement->value : '' }}</td>
@@ -59,5 +61,27 @@
             </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <div class="uk-form-horizontal">
+                        <div class="uk-margin">
+                            <label class="uk-form-label uk-padding-remove-horizontal" for="all_mass_select">{{ __('announcements.all_mass_cmd') }}</label>
+                            <div class="uk-form-controls">
+                                <select class="uk-select" id="all_mass_select" name="all_mass_select">
+                                    <option value="0"></option>
+                                    @foreach (__('announcements.mass_cmd') as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td colspan="4">
+                    <button id="run_cmd" class="uk-button uk-button-secondary" type="button">{{ __('announcements.run_cmd') }}</button>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div>

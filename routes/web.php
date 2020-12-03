@@ -10,7 +10,6 @@ Route::get('/s/{id?}', 'MonitorController@show')->name('monitor');
 Route::post('/set', 'MonitorController@show')->name('set-monitor');
 
 Route::middleware(['auth'])->group(function () {
-
     Route::prefix('screens')->group(function () {
         Route::get('{screen?}', 'ScreenController@index')->name('screens.index');
         Route::get('show/{screen}', 'ScreenController@show')->name('screens.show');
@@ -28,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('delete', 'AnnouncementController@delete')->name('announcements.delete');
         Route::get('dialog', 'AnnouncementController@getDialog')->name('announcements.dialog');
         Route::post('activate-text', 'AnnouncementController@activateText')->name('announcements.activate-text');
+        Route::post('mass-cmd', 'AnnouncementController@doMassCommand')->name('announcements.mass-cmd');
     });
 
     Route::prefix('schedules')->group(function () {

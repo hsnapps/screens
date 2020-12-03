@@ -6,7 +6,7 @@ return [
     0 => [
         'users',
         'إدارة المستخدمين',
-        Auth::user()->is_admin ? route('users.index') : route('dashboard'),
+        route('users.index'),
     ],
     1 => [
         'user',
@@ -16,7 +16,7 @@ return [
     2 => [
         'calendar',
         'الجداول',
-        Auth::user()->is_admin ? route('schedules.index') : route('dashboard'),
+        route('schedules.index'),
     ],
     3 => [
         'thumbnails',

@@ -134,5 +134,33 @@
         $('[name="remove_id"]').val(id);
         $('#remove-form').submit();
     });
+
+    $('#all_mass_cmd').change(function() {
+        $('[name="mass_cmd"]').prop('checked', $(this).prop('checked'));
+    });
+
+    $('#run_cmd').click(function() {
+        if($('[name="mass_cmd"]:checked').length === 0) return
+
+        var url = "{{ route('announcements.mass-cmd') }}";
+        var cmd = document.getElementById('all_mass_select').value;
+        var html = `<form action="${url}" method="post">`;
+
+        if(cmd === '0') return;
+
+        html += '{{ csrf_field() }}';
+        html += `<input type="hidden" name="command" value="${cmd}">`;
+        $('[name="mass_cmd"]').each(function() {
+            var value = $(this).val();
+            var checked = $(this).prop('checked');
+            if (checked) {
+                html += `<input type="checkbox" name="announcement[]" value="${value}" checked>`;
+            }
+        });
+        html += '</form>';
+
+        // alert(html);
+        $(html).appendTo('body').submit();
+    });
 </script>
 @endpush
