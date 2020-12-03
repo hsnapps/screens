@@ -27,7 +27,11 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ __('announcements.types')[$announcement->type] }}</td>
                 <td>{{ $announcement->type == 'text' ? $announcement->value : '' }}</td>
+                @if (isset($announcement->content_end))
                 <td>{{ $announcement->type == 'text' ? $announcement->content_end->format(__('announcements.format')) : '' }}</td>
+                @else
+                <td></td>
+                @endif
                 <td>
                     <button class="uk-button uk-button-text" uk-toggle="target: #edit-{{ $announcement->id }}" type="button"><span uk-icon="pencil"></span></button>
                     @include('modals.edit_announcement')
