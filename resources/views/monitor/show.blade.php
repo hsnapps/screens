@@ -12,7 +12,6 @@
     @include('monitor.corners')
 
     <div id="contnet" class="uk-container uk-container-expand"></div>
-    <span id="seconds" style="font-size: 1.5em; position: absolute; right: 15px; bottom: 15px;" hidden>10</span>
 
     <script src="{{ url('js/uikit.min.js') }}"></script>
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
@@ -33,7 +32,7 @@
                 loadContnet();
                 seconds = 10;
             }
-            document.getElementById('seconds').innerText = seconds;
+            // document.getElementById('seconds').innerText = seconds;
         }, 5000);
 
         function loadContnet() {
@@ -41,8 +40,14 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.fingerprint !== fingerprint) {
-                        document.getElementById('contnet').innerHTML = data.html;
-                        fingerprint = data.fingerprint;
+                        if (data.logo) {
+                            var _logo = "{{ url('images/cte.jpg') }}";
+                            document.body.style.background = 'url("' + _logo + '") no-repeat fixed 0 0';
+                            document.body.style.backgroundSize = '100% 100%';
+                        } else {
+                            document.getElementById('contnet').innerHTML = data.html;
+                            fingerprint = data.fingerprint;
+                        }
                     }
                 })
                 .catch(err => {
