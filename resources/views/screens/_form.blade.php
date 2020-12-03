@@ -56,4 +56,37 @@
 <input type="hidden" name="screen_id" value="{{ $screen_id }}">
 @csrf
 
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        var datetimepickerOptions = {
+            format: 'H:i Y-m-d',
+            i18n: {
+                ar: {
+                    months: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمير', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                    dayOfWeekShort: ['ن', 'ث', 'ع', 'خ', 'ج', 'س', 'ح'],
+                    dayOfWeek: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد']
+                }
+            },
+            rtl: true,
+            // hours12: true,
+            parentID: 'body',
+            weekends: [
+                'الجمعة', 'السبت'
+            ],
+        };
 
+        $.datetimepicker.setLocale('ar');
+       	$('.datetimepicker').datetimepicker(datetimepickerOptions);
+    });
+
+    $('[name="type"]').change(function () {
+        $('.toggle-text').toggle($(this).val() === 'text');
+        $('.toggle-else').toggle($(this).val() !== 'text');
+    });
+
+    $('[name="content"]').change(function() {
+        $("#file-name").text($(this).val());
+    });
+</script>
+@endpush

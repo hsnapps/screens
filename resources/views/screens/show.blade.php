@@ -101,37 +101,6 @@
 <script>
     var timer = null;
 
-    $(document).ready(function() {
-        var datetimepickerOptions = {
-            format: 'H:i Y-m-d',
-            i18n: {
-                ar: {
-                    months: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمير', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
-                    dayOfWeekShort: ['ن', 'ث', 'ع', 'خ', 'ج', 'س', 'ح'],
-                    dayOfWeek: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد']
-                }
-            },
-            rtl: true,
-            // hours12: true,
-            parentID: 'body',
-            weekends: [
-                'الجمعة', 'السبت'
-            ],
-        };
-
-        $.datetimepicker.setLocale('ar');
-       	$('.datetimepicker').datetimepicker(datetimepickerOptions);
-    });
-
-    $('[name="content"]').change(function() {
-        $("#file-name").text($(this).val());
-    });
-
-    $('[name="type"]').change(function () {
-        $('.toggle-text').toggle($(this).val() === 'text');
-        $('.toggle-else').toggle($(this).val() !== 'text');
-    });
-
     // UIkit.switcher('#screen-tab').show(1);
 
     $('#snapshot').attr('src', "{{ route('monitor', ['id' => $screen]) }}");
