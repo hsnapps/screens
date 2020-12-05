@@ -101,7 +101,7 @@
 <script>
     var timer = null;
 
-    UIkit.switcher('#screen-tab').show(2);
+    // UIkit.switcher('#screen-tab').show(2);
 
     $('#snapshot').attr('src', "{{ route('monitor', ['id' => $screen]) }}");
 
