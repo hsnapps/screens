@@ -7,11 +7,22 @@
     <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" type="text/css" href="{{ url('css/uikit-rtl.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('css/monitor.css') }}">
+    <style>
+        .container {
+            display: flow-root;
+            box-sizing: content-box;
+            max-width: none;
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    </style>
 </head>
 <body>
     @include('monitor.corners')
 
-    <div id="contnet" class="uk-container uk-container-expand"></div>
+    <div id="contnet" class="container"></div>
 
     <script src="{{ url('js/uikit.min.js') }}"></script>
     <script src="{{ url('js/uikit-icons.min.js') }}"></script>
