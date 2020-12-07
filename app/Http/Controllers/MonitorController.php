@@ -96,6 +96,7 @@ class MonitorController extends Controller
             return json_encode([
                 'html' => $html,
                 'fingerprint' => $screen->fingerprint,
+                'announcements' => true,
             ]);
         }
 
@@ -105,6 +106,7 @@ class MonitorController extends Controller
             return json_encode([
                 'html' => $html,
                 'fingerprint' => $screen->fingerprint,
+                'lectures' => true,
             ]);
         }
 

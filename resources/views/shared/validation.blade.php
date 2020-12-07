@@ -3,7 +3,7 @@
         <a class="uk-alert-close" uk-close></a>
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+                <li style="direction: rtl">{{ $error }}</li>
             @endforeach
         </ul>
     </div>

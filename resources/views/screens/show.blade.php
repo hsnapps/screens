@@ -38,6 +38,7 @@
 
 @section('content')
 @include('modals.delete_screen')
+@include('shared.validation')
 
 <div class="uk-grid-collapse uk-child-width-expand uk-margin-medium-bottom" uk-grid>
     <div>
